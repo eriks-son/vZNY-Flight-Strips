@@ -1,0 +1,38 @@
+[
+    {
+        "icao": "KEWR",
+        "configs": ["Dep 22R/Land 22L", "Dep 22R/Land 29", "Dep 4L/Land 4R", "4s + ILS 13"],
+        "altitude": 17.4,
+        "minors": ["KTEB", "KMMU", "KCDW"]
+    },
+    {
+        "icao": "KJFK",
+        "configs": ["Dep 4L/Land 4R", "Dep 22R/Land 22L", "Dep 13R/Land 13L", "Dep 31L/Land 31R"],
+        "altitude": 13,
+        "minors": ["KFRG"]
+    },
+    {
+        "icao": "KLGA",
+        "configs": ["Dep 13/Land 22", "Dep 13/Land 4", "Dep 22/Land 22", "Dep 4/Land Any", "Dep 31/Land Any"],
+        "altitude": 20.6,
+        "minors": ["KHPN", "KDXR"]
+    },
+    {
+        "icao": "KSWF",
+        "configs": ["Dep 9/Land 9", "Dep 27/Land 27"],
+        "altitude": 490.7,
+        "minors": ["KPOU"]
+    },
+    {
+        "icao": "KPHL",
+        "configs": ["Dep 9L/Land 9R", "Dep 27L/Land 27R"],
+        "altitude": 35.9,
+        "minors": ["KPNE", "KTTN", "KILG"]
+    },
+    {
+        "icao": "KISP",
+        "configs": ["Dep 24/Land 24", "Dep 6/Land 6", "Dep 33L/Land 33L", "Dep 15R/Land 15R"],
+        "altitude": 98.7,
+        "minors": ["KHVN", "KBDR"]
+    }
+]

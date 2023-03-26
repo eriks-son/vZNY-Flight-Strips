@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { LGAairspace } from '../components/airports/KLGA';
 
 function Airports() {
     const AIRPORTS = require('../components/airports.json');
@@ -14,7 +15,10 @@ function Airports() {
         for (const MAJOR of AIRPORTS) {
             if (document.getElementById(MAJOR.icao + "_tracked").checked) {
                 localStorage.setItem(MAJOR.icao, document.getElementById(MAJOR.icao + "_config").value);
-                if (MAJOR.icao === "KLGA") localStorage.setItem("KLGA_airpsace", document.getElementById("KLGA_airspace").value)
+                if (MAJOR.icao === "KLGA") {
+                    console.log(document.getElementById("KLGA_airspace").value)
+                    localStorage.setItem("KLGA_airpsace", document.getElementById("KLGA_airspace").value)
+                }
             }
             else localStorage.removeItem(MAJOR.icao);
         }
@@ -50,24 +54,14 @@ function Airports() {
             return (
                 <ul className='majorList' id={major.icao + "_list"}>
                     <li>
-                        <input type="checkbox" id={major.icao + "_tracked"} {...setTracked(major.icao)}/>
+                        <input type="checkbox" key={major.icao + "_tracked"} id={major.icao + "_tracked"} {...setTracked(major.icao)}/>
                         <h3>{major.icao} Config:</h3>
                         <select id={major.icao + "_config"}>
                             {major.configs.map((config) => {
                                 return <option id={major + config} value={config}>{config}</option>;
                             })}
                         </select>
-                        {() => {
-                            console.log(major.icao);
-                            if (major.icao === "KLGA") return (
-                                <select id="KLGA_airspace">
-                                    <option value="none">None</option>
-                                    <option value="coney">Coney</option>
-                                    <option value="belmont">Belmont</option>
-                                    <option value="both">Both</option>
-                                </select>
-                            )
-                        }}
+                        {LGAairspace(major.icao)}
                     </li>
                 </ul>
             )
@@ -142,6 +136,25 @@ const FormStyle = styled.form`
     }
 
     .majorList option {
+        letter-spacing: 0.1rem;
+        font-family: 'Inconsolata', monospace;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: white;
+    }
+
+    .KLGA_airspace select {
+        height: 2rem;
+        text-align: center;
+        letter-spacing: 0.1rem;
+        font-family: 'Inconsolata', monospace;
+        text-transform: uppercase;
+        font-weight: bold;
+        background-color: #333;
+        color: white;
+    }
+
+    .KLGA_airspace option {
         letter-spacing: 0.1rem;
         font-family: 'Inconsolata', monospace;
         text-transform: uppercase;

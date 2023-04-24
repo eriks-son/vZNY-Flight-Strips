@@ -7,7 +7,7 @@ function Freq() {
     const [hidden, setHidden] = useState("");
     
     useEffect(() => {
-        getFreq();
+        defaultStart();
     }, []);
 
     useEffect(() => {
@@ -19,6 +19,10 @@ function Freq() {
         localStorage.setItem('freq', freq);
         setHidden("freq");
     };
+
+    const defaultStart = () => {
+        setHidden("freq");
+    }
 
     const getFreq = async () => {
         let frequency = localStorage.getItem('freq');

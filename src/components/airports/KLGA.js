@@ -116,15 +116,13 @@ export function getPDC2(config, pdc1) {
     else return "Error with pdc2";
 }
 
-export function LGAairspace(airport) {
-    if (airport === "KLGA") {
-        return (
-            <select id="KLGA_airspace">
-                <option value="none">None</option>
-                <option value="coney">Coney</option>
-                <option value="belmont">Belmont</option>
-                <option value="both">Both</option>
+export function LGAairspace(airspace, setAirspace) {
+    return (
+            <select id="KLGA_airspace" value={airspace} onChange={(e) => {setAirspace(e.target.value)}}>
+                <option id="none" value="none">None</option>
+                <option id="coney" value="coney">Coney</option>
+                <option id="belmont" value="belmont">Belmont</option>
+                <option id="both" value="both">Both</option>
             </select>
         );
-    }
 }

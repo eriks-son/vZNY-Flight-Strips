@@ -12,6 +12,7 @@ function Strips() {
     const [deleted, setDeleted] = useState([]);
     const [airports, setAirports] = useState(new Map());
     const [clearance, setClearance] = useState("");
+    const [search, setSearch] = useState("");
 
     const crossHandle = (strip) => {
         const deletedNew = [...deleted, strip.cid];
@@ -22,6 +23,10 @@ function Strips() {
 
     useEffect(() => {
         getStrips();
+    }, [search]);
+
+    useEffect(() => {
+        getStrips();
     }, [deleted]);
 
     useEffect(() => {
@@ -29,7 +34,6 @@ function Strips() {
     }, [airports]);
 
     useEffect(() => {
-        setClearance("ADB2412");
         getAirports();
         getDeleted();
         getStrips();
@@ -63,9 +67,10 @@ function Strips() {
             return flight.flight_plan 
             && airports.has(flight.flight_plan.departure)
             && flight.altitude < 50
-            && !deleted.includes(flight.cid);
+            && !deleted.includes(flight.cid)
+            && flight.callsign.includes(search)
+            && flight.flight_plan.flight_rules === "I";
         });
-        console.log(stripsData);
         setStrips(stripsData);
     };
 
@@ -74,11 +79,16 @@ function Strips() {
         setDeleted([]);
     }
 
+    const handleSearchChange = (e) => {
+        e.preventDefault();
+        setSearch(e.target.value.toUpperCase());
+    }
+
     return (
         <div>
             <Wrapper>
-                <div className='reset'>
-                    <button onClick={handleReset}>Reset</button>
+                <div className="search">
+                <input key="search" value={search} type="text" placeholder='Enter Partial Callsign' onChange={handleSearchChange}/>
                 </div>
                 {strips.sort((f1, f2) => (f1.callsign > f2.callsign) ? 1 : (f1.callsign < f2.callsign) ? -1 : 0).map((strip) => {
                     return (
@@ -101,11 +111,14 @@ function Strips() {
                             <div className="checkmark"><button onClick={() => setClearance(strip.callsign)}><FcCheckmark /></button></div>
                             <div className="cross"><button onClick={() => crossHandle(strip)}><FcCancel /></button></div>
                         </Strip>
-                        <Clearance strip={strip} clearance={clearance} onClearanceChange={setClearance} 
-                        deleted={deleted} onDeletedChange={crossHandle} config={airports.get(strip.flight_plan.departure)}/>
+                        <Clearance strip={strip} clearance={clearance} onClearanceChange={setClearance}
+                         onDeletedChange={crossHandle} config={airports.get(strip.flight_plan.departure)}/>
                         </div>
                         )
                 })}
+                <div className='reset'>
+                    <button onClick={handleReset}>Reset</button>
+                </div>
             </Wrapper>
         </div>
     )
@@ -114,6 +127,26 @@ function Strips() {
 const Wrapper = styled.div`
     margin: 0rem 5rem;
     background: url("../pages/Empty Strip Bay.png") repeat-y;
+
+    .search {
+        padding: 1rem;
+        margin: 1.5rem;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .search input { 
+        width: 50%;
+        height: 10vh;
+        text-align: center;
+        font-family: 'Inconsolata', monospace;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        background: #333;
+        color: white;
+        font-weight: bold;
+        font-size: 2vw;
+    }
 
     .reset {
         padding: 1rem;

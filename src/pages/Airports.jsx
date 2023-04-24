@@ -7,6 +7,7 @@ function Airports() {
     const AIRPORTS = require('../components/airports.json');
 
     const [airports, setAirports] = useState(new Map());
+    const [airspace_lga, setAirspace_lga] = useState("");
 
     const navigate = useNavigate();
 
@@ -16,8 +17,7 @@ function Airports() {
             if (document.getElementById(MAJOR.icao + "_tracked").checked) {
                 localStorage.setItem(MAJOR.icao, document.getElementById(MAJOR.icao + "_config").value);
                 if (MAJOR.icao === "KLGA") {
-                    console.log(document.getElementById("KLGA_airspace").value)
-                    localStorage.setItem("KLGA_airpsace", document.getElementById("KLGA_airspace").value)
+                    localStorage.setItem("KLGA_airspace", document.getElementById("KLGA_airspace").value)
                 }
             }
             else localStorage.removeItem(MAJOR.icao);
@@ -44,6 +44,8 @@ function Airports() {
             airportConfig = localStorage.getItem(MAJOR.icao);
             if (airportConfig != null) airportMap.set(MAJOR.icao, airportConfig);
         }
+        var airspace = localStorage.getItem("KLGA_airspace");
+        setAirspace_lga(airspace);
         setAirports(airportMap);
     }
 
@@ -61,7 +63,7 @@ function Airports() {
                                 return <option id={major + config} value={config}>{config}</option>;
                             })}
                         </select>
-                        {LGAairspace(major.icao)}
+                        {major.icao === "KLGA" ? LGAairspace(airspace_lga, setAirspace_lga) : NaN}
                     </li>
                 </ul>
             )

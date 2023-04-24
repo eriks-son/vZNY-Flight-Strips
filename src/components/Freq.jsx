@@ -10,26 +10,38 @@ function Freq() {
         getFreq();
     }, []);
 
+    useEffect(() => {
+        getFreq();
+    }, [hidden]);
+
     const submitHandler = (e) => {
-        e.preventDefault();
+        if (e instanceof Object) e.preventDefault();
         localStorage.setItem('freq', freq);
-        setHidden("");
+        setHidden("freq");
     };
 
     const getFreq = async () => {
         let frequency = localStorage.getItem('freq');
         if (frequency === null) {
-            frequency = "";
+            frequency = "125.325";
             localStorage.setItem('freq', frequency);
         }
         setFreq(frequency);
     };
 
+    const clickHandler = () => {
+        if (hidden === "") {
+            submitHandler(NaN);
+        } else {
+            setHidden("");
+        }
+    }
+
   return (
     <div>
-        <Button onClick={() => setHidden("freq")}>Frequency</Button>
-      <FormStyle className={hidden === "freq" ? '' : 'active'} onSubmit={submitHandler}>
-        <div className={hidden === "freq" ? '' : 'active'}>
+        <Button onClick={clickHandler}>Frequency</Button>
+      <FormStyle className={hidden === "freq" ? 'hidden' : ''} onSubmit={submitHandler}>
+        <div className={hidden === "freq" ? 'hidden' : ''}>
             <IoIosRadio></IoIosRadio>
             <input value={freq} onChange={(e) => setFreq(e.target.value)} type="text"/>
         </div>
@@ -45,7 +57,7 @@ const FormStyle = styled.form`
     font-weight: bold;
     display: flex;
     
-    .active {
+    .hidden {
         display: none;
         justify-content: space-around;
         align-items: center;

@@ -49,7 +49,7 @@ export function getPDC1(strip, config, dp, type) {
 export function getPDC2(config, pdc1) {
     if (config === "Dep 4L/Land 4R") return ".pdc2 4L";
     else if (config === "Dep 13R/Land 13L") return ".pdc2 13R";
-    else if (config === "Dep 22R/Land 22L") return ".pdc2 22L";
+    else if (config === "Dep 22R/Land 22L") return ".pdc2 22R";
     else if (config === "Dep 31L/Land 31R") {
         if (pdc1.substring(0, 6) === ".cjfki") return ".pdc2 31R";
         else return ".pdc2 31L";

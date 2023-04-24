@@ -4,11 +4,9 @@ import blankStrip from './ClearanceStripBlank.png';
 import { FcCheckmark, FcUndo } from "react-icons/fc"; 
 import logoImage from './ZNY-transparent-black-1000x1000px.png';
 import { FaRoute } from "react-icons/fa";
-import * as KJFK from "./airports/KJFK.js";
 import * as types from "./airports/types";
 
-function Clearance({strip, clearance, onClearanceChange, deleted, onDeletedChange, config}) {
-    console.log(strip);
+function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config}) {
     const airport = require('./airports/' + strip.flight_plan.departure + ".js");
 
     const handleClearanceFinal = useCallback(event => {
@@ -62,7 +60,19 @@ function Clearance({strip, clearance, onClearanceChange, deleted, onDeletedChang
     const cleanRoute = () => {
         let cleaned = strip.flight_plan.route.replace("+", "");
         for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
+        cleaned = cleaned.replace(strip.flight_plan.departure, "");
+        cleaned = cleaned.replace(strip.flight_plan.arrival, "");
+        cleaned = cleaned.replace("  ", " ");
         return cleaned.slice(0, 130) + ((130 < strip.flight_plan.route.length) ? "..." : "");
+    }
+
+    const DPRoute = () => {
+        let cleaned = strip.flight_plan.route.replace("+", "");
+        cleaned = cleaned.replace(strip.flight_plan.departure, "");
+        cleaned = cleaned.replace(strip.flight_plan.arrival, "");
+        for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
+        cleaned = cleaned.replace("  ", " ");
+        return dp + " " + cleaned;
     }
 
     useEffect(() => {
@@ -107,13 +117,13 @@ function Clearance({strip, clearance, onClearanceChange, deleted, onDeletedChang
             <div className="dp-label"><p>DP:</p></div>
             <div className="dp">
                 <select id="dp-select" value={dp} onChange={handleDpChange}>
-                    {KJFK.DPs.map((departureProcedure) => {
+                    {airport.DPs.map((departureProcedure) => {
                         return <option id={departureProcedure} value={departureProcedure}>{departureProcedure}</option>
                     })}
                 </select>
             </div>
             <div className="route">
-                <p>
+                <p onClick={() => navigator.clipboard.writeText(DPRoute())}>
                     {dp + " " + cleanRoute()}
                 </p>
             </div>
@@ -312,6 +322,12 @@ const NewStrip = styled.div`
 
     .route p {
         font-size: 2vw;
+        opacity: 50%;
+    }
+
+    .route p:hover {
+        opacity: 100%;
+        cursor: pointer;
     }
     
     .checkmark {

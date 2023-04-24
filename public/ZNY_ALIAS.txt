@@ -1,0 +1,429 @@
+vZNY Alias File
+Version: 2107.0
+File updated: Jul 12th, 2021
+By: Amin Abrahem, James Demchuck
+
+##########################################################
+CLEARANCE DELIVERY
+##########################################################
+.cv cleared to $arr via radar vectors $uc($1), then as filed. Maintain $2, expect $cruise 10 minutes after departure. Departure frequency $3, squawk $squawk.
+.cd cleared to $arr, $uc($1) departure, radar vectors $uc($2), then as filed. Maintain $3, expect $cruise 10 minutes after departure. Departure frequency $4, squawk $squawk.
+.cdr cleared to $arr, $uc($1) departure, radar vectors $uc($2), then as filed. Climb via SID, top altitude $3, expect $cruise 10 minutes after departure. Departure frequency $4, squawk $squawk.
+.cde cleared to $arr, $uc($1) departure, radar vectors $uc($2), then as filed. Climb via SID, except maintain $3, expect $cruise 10 minutes after departure. Departure frequency $4, squawk $squawk.
+.cc cleared to $arr, $uc($1) departure, $2 climb, radar vectors $uc($3), then as filed. Maintain $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.ccr cleared to $arr, $uc($1) departure, $2 climb, radar vectors $uc($3), then as filed. Climb via SID, top altitude $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.cce cleared to $arr, $uc($1) departure, $2 climb, radar vectors $uc($3), then as filed. Climb via SID, except maintain $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.ct cleared to $arr, $uc($1) departure, $uc($2) transition, then as filed. Maintain $3, expect $cruise 10 minutes after departure. Departure frequency $4, squawk $squawk.
+.ctr cleared to $arr, $uc($1) departure, $uc($2) transition, then as filed. Climb via SID, top altitude $3, expect $cruise 10 minutes after departure. Departure frequency $4, squawk $squawk.
+.cte cleared to $arr, $uc($1) departure, $uc($2) transition, then as filed. Climb via SID, except maintain $3, expect $cruise 10 minutes after departure. Departure frequency $4, squawk $squawk.
+.cvt cleared to $arr, $uc($1) departure, radar vectors $uc($2), $uc($3) transition, then as filed. Maintain $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.cvtr cleared to $arr, $uc($1) departure, radar vectors $uc($2), $uc($3) transition, then as filed. Climb via SID, top altitude $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.cvte cleared to $arr, $uc($1) departure, radar vectors $uc($2), $uc($3) transition, then as filed. Climb via SID, except maintain $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.ctv cleared to $arr, $uc($1) departure, $uc($2) transition, radar vectors $uc($3), then as filed. Maintain $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.ctvr cleared to $arr, $uc($1) departure, $uc($2) transition, radar vectors $uc($3), then as filed. Climb via SID, top altitude $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.ctve cleared to $arr, $uc($1) departure, $uc($2) transition, radar vectors $uc($3), then as filed. Climb via SID, except maintain $4, expect $cruise 10 minutes after departure. Departure frequency $5, squawk $squawk.
+.read readback correct, push and start at your discretion, expect runway $uc($1) for departure, advise ready to taxi, $dep altimeter $altim($dep)
+.clreq clearance on request, standby, number $1
+
+##########################################################
+GROUND
+##########################################################
+.push pushback approved, tail $1, advise ready to taxi
+.pushd push and start at your discretion, advise ready to taxi
+.taxi runway $uc($1), taxi via
+.taxip taxi to parking via
+.hs hold short runway $uc($1)
+.cross cross runway $uc($1) at $uc($2)
+
+##########################################################
+TOWER
+##########################################################
+.lu runway $uc($1), line up and wait
+.to wind $wind($dep), runway $uc($1), cleared for takeoff
+.tohdg fly heading $1, wind $wind($dep), runway $uc($2), cleared for takeoff
+.torwy fly runway heading, wind $wind($dep), runway $uc($1), cleared for takeoff
+.toclimb fly the $1 climb, wind $wind($dep), runway $uc($2), cleared for takeoff
+.todep fly the $uc($1) departure, wind $wind($dep), runway $uc($2), cleared for takeoff
+.land wind $wind($arr), runway $uc($1), cleared to land
+.land2 number 2 following an $uc($1) on a $2 mile final, wind $wind($arr), runway $uc($3), cleared to land
+.land2w number 2 following an $uc($1) on a $2 mile final, caution wake turbulence, wind $wind($arr), runway $uc($3), cleared to land
+
+##########################################################
+RADAR IDENTIFICATION
+##########################################################
+.sq squawk $squawk
+.sqi squawk $squawk and ident
+.sn squawk normal
+.modec ensure transponder is on mode C (altitude reporting)
+.rc radar contact
+.rca radar contact, say altitude leaving
+.rcb radar contact $dist($1) miles $bear($1) of $uc($1) at $calt
+.rcl radar contact lost
+
+##########################################################
+VECTORING
+##########################################################
+.tl turn left heading $1
+.tr turn right heading $1
+.fh fly heading $1
+.fph fly present heading
+.cm climb and maintain $1
+.dm descend and maintain $1
+.tlm turn left heading $1, maintain $2
+.trm turn right heading $1, maintain $2
+.meter $uc($1) altimeter $altim($1)
+.dec cross $uc($1) at and maintain $2
+.decm cross $uc($1) at and maintain $2, $uc($3) altimeter $altim($3)
+.decs cross $uc($1) at and maintain $2 at $3 knots
+.decsm cross $uc($1) at and maintain $2 at $3 knots, $uc($4) altimeter $altim($4)
+.dv descend via the $uc($1) arrival
+.dvm descend via the $uc($1) arrival, $uc($2) altimeter $altim($2)
+.spd maintain $1 knots
+.spd5 maintain $1 knots until 5 DME
+.spdf slow to final approach speed
+.spdm maintain maximum forward speed
+.spds maintain slowest practical speed
+.spdn resume normal speed
+.spdr say indicated airspeed
+.mach maintain mach .$1
+.machr say mach number
+.pdct proceed direct $uc($1)
+.cdct cleared direct $uc($1), rest of route unchanged
+.join join $uc($1) and resume own navigation
+
+##########################################################
+APPROACH & DEPARTURE
+##########################################################
+.ils $dist($1) miles from $uc($1), fly heading $2, maintain $3 until established on localizer, cleared ILS runway $uc($4) approach
+.dctapp Proceed direct $1, cross $uc($1) at or above $2, cleared $uc($3) runway $uc($4) approach
+.fhloc fly heading $1, intercept runway the localizer
+.ilsloc $dist($1) miles from $uc($1), cleared ILS runway $uc($2) approach
+.est report established on the final approach course
+.visual $arr at your $oclock($arr) and $dist($arr) miles, report in sight
+.visclr cleared visual approach runway $uc($1) $arr
+.exp expect $1 runway $uc($2) approach, $arr altimeter $altim($arr)
+.dep depart $uc($1) heading $2, vectors $3 runway $uc($4) final approach course, $arr altimeter $altim($arr)
+.vtf vectors to final approach course
+.release released for departure, time now $timeZ, clearance void if not off by $1Z. Report airborne this frequency.
+.advise no known or observed traffic between you and $arr, radar services terminated, change to advisory frequency approved. Report IFR cancellation or missed approach this frequency.
+.cancel IFR cancellation received, squawk and maintain VFR, frequency change approved, take care
+
+##########################################################
+TRANSFER OF CONTROL
+##########################################################
+.ho contact $radioname($1) on frequency $freq($1)
+.clg $1 Ground is not online, change to advisory frequency approved, take care
+.clt $1 Tower is not online, change to advisory frequency approved, take care
+.cld $1 Departure is not online, change to advisory frequency approved, take care
+.leavinga leaving my airspace, $1 Approach is not online, radar services terminated, change to advisory frequency approved, take care
+.leavingc leaving my airspace, $1 Center is not online, radar services terminated, change to advisory frequency approved, take care
+.leavingr leaving my airspace, New York Radio is not online, radar services terminated, change to advisory frequency approved, take care
+.unicom no further ATC is available, monitor UNICOM on frequency 122.8, take care
+.signoff I am going to be signing off shortly, radar services terminated, change to advisory frequency approved, thanks for flying!
+
+##########################################################
+OCEANIC
+##########################################################
+.pass pass your message
+.eta say ETA over $uc($1), requested flight level and mach number in non-radar airspace
+.oc maintain $cruise and mach .$1
+.oca from $uc($1) maintain $cruise and mach .$2, cross $uc($1) not before $3Z
+.ocb from $uc($1) maintain $cruise and mach .$2, cross $uc($1) not after $3Z
+.pr New York Radio copies $uc($1) at $2Z. FL$3, mach .$4. Estimating $uc($5) at $6Z, $uc($7) thereafter.
+.prf please give your position report as follows: [LAST FIX CROSSED] at [TIME CROSSED], [ALTITUDE], [MACH], estimating [NEXT FIX] at [TIME], [NEXT FIX] thereafter
+.prt please file your position report via text
+.lvc leaving New York Radio airspace, contact $radioname($1) on frequency $freq($1), take care
+.lvu leaving New York Radio airspace, no further ATC is available, frequency change to UNICOM 122.8 is approved. Enjoy the rest of your flight!
+.lvr leaving radar service area, radar services terminated. Standing by to receive your position report.
+
+##########################################################
+OTHER COMMUNICATION
+##########################################################
+.newbzny Welcome to New York ARTCC! Please visit our website (https://nyartcc.org/) and browse our pilot resources pages for all the latest news and information regarding our sector. Please enjoy your stay and welcome to ZNY!
+.newbprc Welcome to the VATSIM network - a realistic environment that simulates real world air traffic control! Before you begin your VATSIM career, please direct your attention to the Pilot Resource Center, which outlines the code of conduct as well as the basic knowledge pilots are expected to become familiar with: https://www.vatsim.net/pilot-resource-centre. Please enjoy your stay here in ZNY, and we look foward to seeing you in the future, after you have read through the basic material. Blue Skies!
+.newbbusy Welcome aboard the VATSIM network! While I would love to answer your questions and help you become familiar with this realistic environment, my work load is quite large at this time. Please visit the Pilot Resource Center located at: https://www.vatsim.net/pilot-resource-centre. Thank you for your cooperation and understanding!
+.coc I would like to kindly ask that you visit the Pilot Resource Center (https://www.vatsim.net/pilot-resource-centre) and pay close attention to the Code of Conduct with which pilots on the network are expected to abide. Together, both pilot and controller, can work towards creating a respectful and courteous environment. Thank you for your cooperation and understanding!
+.rwyspawn .msg $aircraft Hello, it appears you have connected on an active runway. Please disconnect, move yourself to a non-movement area (such as a ramp or gate), and reconnect.
+.twyspawn .msg $aircraft Hello, it appears you have connected on an active taxiway. Please disconnect, move yourself to a non-movement area (such as a ramp or gate), and reconnect. 
+
+##########################################################
+GENERIC PDCS
+##########################################################
+
+# PDC Standby Message
+.pdcs .msg $aircraft DO NOT REPLY TO THIS MESSAGE | STANDBY FOR PRE-DEPARTURE CLEARANCE
+
+# .pdc1 [Departure Frequency] [Initial Altitude] [Departure Procedure]
+.pdc1 .msg $aircraft DO NOT REPLY TO THIS MESSAGE | PRE-DEPARTURE CLEARANCE START | $time Z | CALLSIGN: $aircraft | EQUIP: $type($aircraft) | DEP: $dep | ARR: $arr | SQUAWK: $squawk | FINAL ALT: $cruise | APPROVED ROUTE: $route | DEP FREQ: $1 | ALTITUDE RESTRICTIONS: MAINTAIN $2 | DEPARTURE PROCEDURE: 
+
+# .pdc1r [Departure Frequency] [Initial Altitude] [Departure Procedure]
+.pdc1r .msg $aircraft DO NOT REPLY TO THIS MESSAGE | PRE-DEPARTURE CLEARANCE START | $time Z | CALLSIGN: $aircraft | EQUIP: $type($aircraft) | DEP: $dep | ARR: $arr | SQUAWK: $squawk | FINAL ALT: $cruise | APPROVED ROUTE: $route | DEP FREQ: $1 | ALTITUDE RESTRICTIONS: *CLIMB VIA SID*, TOP ALTITUDE $2 | DEPARTURE PROCEDURE: 
+
+# .pdc1e [Departure Frequency] [Initial Altitude] [Departure Procedure]
+.pdc1e .msg $aircraft DO NOT REPLY TO THIS MESSAGE | PRE-DEPARTURE CLEARANCE START | $time Z | CALLSIGN: $aircraft | EQUIP: $type($aircraft) | DEP: $dep | ARR: $arr | SQUAWK: $squawk | FINAL ALT: $cruise | APPROVED ROUTE: $route | DEP FREQ: $1 | ALTITUDE RESTRICTIONS: *CLIMB VIA SID*, EXCEPT MAINTAIN $2 | DEPARTURE PROCEDURE: 
+
+# .pdc2 [Departure Runway] [Ground Sector ID (Leave Blank for Own)]
+.pdc2 .msg $aircraft PLAN RWY $uc($1) FOR DEPARTURE. CONTACT $uc($radioname($2)) ON FREQ $freq($2) FOR TAXI WITH ASSIGNED SID, SQUAWK CODE, AND CURRENT ATIS CODE ONLY. IF YOU HAVE ANY QUESTIONS OR ARE UNABLE TO ACCEPT ANY ASSIGNMENT, CONTACT ATC ON FREQUENCY $freq() | PRE-DEPARTURE CLEARANCE END
+
+##########################################################
+SID SPECIFIC PDCS
+##########################################################
+
+# NEWARK (KEWR)
+.cewrn .pdc1e $1 3000 NEWARK FOUR (EWR4)
+.cewrni .pdc1 $1 2000 FLY HEADING 040, AT 4 DME TURN LEFT HEADING 290
+.cewrs .pdc1 $1 2500 NEWARK FOUR (EWR4)
+.cportt .pdc1 $1 2500 PORTT FOUR (PORTT4)
+.cporttt .pdc1 $2 2500 PORTT FOUR (PORTT4), $uc($1) TRANSITION
+.clib .pdc1 $2 2500 LIBERTY FOUR (LIB4), $uc($1) CLIMB
+
+# LA GUARDIA (KLGA)
+.clga .pdc1 $1 5000 LA GUARDIA SEVEN (LGA7)
+.clgah .pdc1 $2 5000 LA GUARDIA SEVEN (LGA7), FLY HEADING $1
+.clgam .pdc1r $1 5000 LA GUARDIA SEVEN (LGA7), MASPETH CLIMB
+.clgac .pdc1r $1 5000 LA GUARDIA SEVEN (LGA7), CONEY CLIMB
+.clgaf .pdc1 $1 5000 LA GUARDIA SEVEN (LGA7), FLUSHING CLIMB
+.clgaw .pdc1 $1 5000 LA GUARDIA SEVEN (LGA7), WHITESTONE CLIMB
+.clgab .pdc1 $1 5000 LA GUARDIA SEVEN (LGA7), BRONX CLIMB
+.clgap .pdc1 $1 5000 LA GUARDIA SEVEN (LGA7), PELHAM CLIMB
+.clgas .pdc1 $1 5000 LA GUARDIA SEVEN (LGA7), SOUND CLIMB
+.ctnnis .pdc1r $1 5000 TNNIS SIX (TNNIS6)
+.cgldmn .pdc1r $1 5000 GLDMN SEVEN (GLDMN7)
+.cjutes .pdc1r $1 5000 JUTES THREE (JUTES3)
+.chopea .pdc1r $1 5000 HOPEA THREE (HOPEA3)
+.cnthns .pdc1r $1 5000 NTHNS FIVE (NTHNS5)
+
+# KENNEDY (KJFK)
+.cjfk .pdc1 $1 5000 KENNEDY FIVE (JFK5)
+.cjfkh .pdc1 $2 5000 KENNEDY FIVE (JFK5), FLY HEADING $1
+.cjfkc .pdc1r $1 5000 KENNEDY FIVE (JFK5), CANARSIE CLIMB
+.cjfkbfffffff .pdc1r $1 5000 KENNEDY FIVE (JFK5), BREEZY POINT CLIMB
+.cjfkg .pdc1 $1 5000 KENNEDY FIVE (JFK5), GATEWAY CLIMB
+.cjfki .pdc1 $1 2000 KENNEDY FIVE (JFK5), IDLEWILD CLIMB
+.cjfk4 .pdc1 $1 5000 KENNEDY FIVE (JFK5), EXCEPT FLY RUNWAY HEADING TO THE KENNEDY 1.5 DME, THEN TURN RIGHT HEADING 100
+.cskorr .pdc1r $2 5000 SKORR FOUR (SKORR4), $uc($1) TRANSITION
+.cdeezz .pdc1 $2 5000 DEEZZ FIVE (DEEZZ5), $uc($1) TRANSITION
+.cdeezz3 .pdc1r $2 5000 DEEZZ FIVE (DEEZZ5), $uc($1) TRANSITION
+.cdeezz4 .pdc1 $2 5000 DEEZZ FIVE (DEEZZ5), EXCEPT FLY RUNWAY HEADING TO THE KENNEDY 1.5 DME, THEN TURN RIGHT HEADING 100; $uc($1) TRANSITION
+.cbette .pdc1 $1 5000 BETTE SIX (BETTE6)
+.cbetteh .pdc1 $2 5000 BETTE SIX (BETTE6), FLY HEADING $1
+.cbettec .pdc1r $1 5000 BETTE SIX (BETTE6), CANARSIE CLIMB
+.cbetteg .pdc1 $1 5000 BETTE SIX (BETTE6), GATEWAY CLIMB
+.cbette4 .pdc1 $1 5000 BETTE SIX (BETTE6), EXCEPT FLY RUNWAY HEADING TO THE KENNEDY 1.5 DME, THEN TURN RIGHT HEADING 100
+.cgreki .pdc1 $1 5000 GREKI SEVEN (GREKI7), JUDDS TRANSITION
+.cgrekih .pdc1 $2 5000 GREKI SEVEN (GREKI7), FLY HEADING $1, JUDDS TRANSITION
+.cgrekic .pdc1r $1 5000 GREKI SEVEN (GREKI7), CANARSIE CLIMB, JUDDS TRANSITION
+.cgrekig .pdc1 $1 5000 GREKI SEVEN (GREKI7), GATEWAY CLIMB, JUDDS TRANSITION
+.cgreki4 .pdc1 $1 5000 GREKI SEVEN (GREKI7), EXCEPT FLY RUNWAY HEADING TO THE KENNEDY 1.5 DME, THEN TURN RIGHT HEADING 100; JUDDS TRANSITION
+.cmerit .pdc1 $1 5000 MERIT SIX (MERIT6), PUTNAM (PUT) TRANSITION
+.cmerith .pdc1 $2 5000 MERIT SIX (MERIT6), FLY HEADING $1, PUTNAM (PUT) TRANSITION
+.cmeritc .pdc1r $1 5000 MERIT SIX (MERIT6), CANARSIE CLIMB, PUTNAM (PUT) TRANSITION
+.cmeritg .pdc1 $1 5000 MERIT SIX (MERIT6), GATEWAY CLIMB, PUTNAM (PUT) TRANSITION
+.cmerit4 .pdc1 $1 5000 MERIT SIX (MERIT6), EXCEPT FLY RUNWAY HEADING TO THE KENNEDY 1.5 DME, THEN TURN RIGHT HEADING 100; PUTNAM (PUT) TRANSITION
+.chapie .pdc1 $1 5000 HAPIE SIX (HAPIE6)
+.chapieh .pdc1 $2 5000 HAPIE SIX (HAPIE6), FLY HEADING $1
+.chapiec .pdc1r $1 5000 HAPIE SIX (HAPIE6), CANARSIE CLIMB
+.chapieg .pdc1 $1 5000 HAPIE SIX (HAPIE6), GATEWAY CLIMB
+.chapie4 .pdc1 $1 5000 HAPIE SIX (HAPIE6), EXCEPT FLY RUNWAY HEADING TO THE KENNEDY 1.5 DME, THEN TURN RIGHT HEADING 100
+
+# PHILADELPHIA (KPHL)
+.cphl .pdc1 $1 5000 PHILADELPHIA TWO (PHL2)
+.cphlp .pdc1 $1 3000 PHILADELPHIA TWO (PHL2)
+
+# TETERBORO (KTEB)
+.cteb .pdc1 $1 2000 TETERBORO THREE (TEB3)
+.cteb2 .pdc1r $1 2000 TETERBORO THREE (TEB3)
+.cruudy .pdc1r $1 2000 RUUDY SIX (RUUDY6)
+
+# WESTCHESTER (KHPN)
+.chpn .pdc1 $1 3000 WESTCHESTER SEVEN (HPN7)
+.cprop .pdc1 $1 3000 PROP ONE (PROP1)
+
+# ISLIP (KISP)
+.cisp .pdc1 $1 3000 LONG ISLAND SEVEN (LONGI7)
+
+# STEWART (KSWF)
+.cswf .pdc1 #1 3000 STEWART NINE (SWF9)
+
+
+##########################################################
+RADAR SCOPE COMMANDS
+##########################################################
+.phlvis .vis KPHL KACY KWRI KABE
+.phlwx .qd KILG KPNE KTTN KPHL
+.n90vis .vis KABE KHTO KWRI KSWF
+.n90wx .qd KJFK KFRG KLGA KHPN KDXR KISP KBDR KFOK KHVN KOXC KEWR KCDW KMMU KTEB KSWF KPOU
+.znyvis .vis RQIE RQEA RQVH RQRC
+.znyvis2 .vis RQIE RQEA RBX GUICE
+.znywx .qd KABE KACY KAVP KBDR KBWI KELM KEWR KFRG KHPN KHVN KIPT KISP KJFK KLGA KMDT KPHL KSWF KTEB KWRI
+.zwyvis .vis GECAL 3856N 2251N 3644N
+.zwyvis2 .vis BALTN 3960N 2251N 3644N
+
+.ewrgates .ff BREZY GREKI MERIT BAYYS CMK BDR WAVEY DIXIE WHITE COL BIGGY LANNA PARKE SBJ BWZ ELIOT COATE NEION HAAYS GAYEL SAX
+.jfkgates .ff GREKI MERIT BAYYS BDR BETTE HAPIE SHIPP WAVEY DIXIE WHITE RBV RNGRR ARD SBJ LANNA SAX COATE NEION HAAYS GAYEL
+.lgagates .ff GREKI MERIT BAYYS BDR CMK DPK SHIPP WAVEY DIXIE WHITE BIGGY LANNA PARKE SBJ BWZ ELIOT NYACK SAX COATE NEION HAAYS GAYEL
+.phlgates .ff FJC ARD PTW RBV MXE STOEN DQO DITCH RUUTH CYN VCN OOD ENO
+.libgates .ff HIDAL STUBY BRISS IGN PWL MOONI HFD LOVES VALRE WHITE BIGGY LANNA COATE HUO WEARD
+.n90gates .ff BREZY GREKI MERIT BAYYS CMK BDR WAVEY DIXIE WHITE COL BIGGY LANNA PARKE SBJ BWZ ELIOT COATE NEION HAAYS GAYEL SAX DPK SHIPP NYACK BETTE HAPIE RBV RNGRR ARD HIDAL STUBY BRISS IGN PWL MOONI HFD LOVES VALRE HUO WEARD
+.znygates .ff STEFE SOMTO DYLIN CRANK SWEET LOUIE BRAND HNK BDL BAF SAX HAYED HANAA OWENZ CYN CYPER BASYE DAVYS KORRY MARRC VIBES BEUTY PETER NOBBI OWENZ CAMRN ZIGGI HOGGS LENDY HARTY LOVES TRAIT CCC ROBER COFAX BUNTS VCN HARVA CORLE LECOR SPUDS ANMAR JAYBO GARED TERRI GUNNI GIMGE BRIGS WIPOR DPK LHY RAGER BOUNO SOUND GWENY WESTO RICED DNY VALRE ILENE WACKI REGLE LVZ MUGZY RADDS SIE NEWES BELAY MULRR TRISH NUGGY SKILS OWENZ
+.bdagates .ff BALOO LAZEY NUMBR WINGZ PIREX GECAL SHEIL BALTN ANTIG JIMAC ENAPI DASER BOVIC ANVER
+.reportfix1 .ff BOBTU JEBBY NOVOK MUNEY SELEM DOVEY KAYYT JOBOC DRYED SOORY VITOL SAILE SLATN
+.reportfix2 .ff AZEZU OKONU MARIG KINGG SQUAD SAVIK RESQU ROLLE LEXAD PAEPR VEGAA AVAST LACKS
+.reportfix3 .ff ATUGI SKPPR DARUX KINER SAUCR NETSS ONGOT ZZTOP PERDO BEXUM LUNKR JAROM LOMPI
+.reportfix4 .ff BANNK GALVN GRAMN TASNI BOREX DUPOX ILIDO VESRA RABAL VINSO BRKZZ CARAC GAYBL
+.reportfix5 .ff NUBUS PRCHA TARMO MACOR RKDIA KAVAX FIVZE SIFEN AYTTE AMENO RAFIN VODOR
+.coodfix .ff OWENZ LEOES JETER OUTES TOMMZ HANRI OTTNG JAINS UKOKA SNAGY SUMRS MAYPL BROOM CNNOR GRATX MILLE CANEE LETON LNHOM LAMER LUCTI MLLER WATRS KINCH HANCY CHEDR KEEKA OPAUL SOCCO DAWIN OBIKE DABAK BUTUX DOPHN GRUPI ELERI
+.id .ff ACY ADW ALB AML ARD ATR BAF BAL BFD BRV BWZ CAM CEF CFB CIP CMK COL CSN CTR CYN DCA DNY DQO ELZ EMI ENO ESL ETX FDK FJC FOK FQM GGT GON GVE GXU HAR HFD HGR HNK HTO HUO IGN ITH JFK JST LDN LGA LRP LVZ MAD MIP MRB MTN MVY MXE NEL NHK OOD ORF OTT PTW PUT PVD PWL PXT RAV RBV REC RKA SAX SBJ SBY SEG SEY SFK SIE STW SWL SYR TEB THS UCA ULW VCN
+
+##########################################################
+URL OPENER COMMANDS
+##########################################################
+.sop .openurl https://wiki.nyartcc.org/index.php?title=$uc($1)_SOP
+.zdcloa .openurl https://wiki.nyartcc.org/index.php?title=ZNY_ZDC_LOAs
+.zbwloa .openurl https://wiki.nyartcc.org/index.php?title=LOA_ZNY_ZBW
+.zobloa .openurl https://wiki.nyartcc.org/index.php?title=LOA_ZNY_ZOB
+.prd .openurl http://nyartcc.org/prd?from=$dep&to=$arr
+.airnav .openurl http://www.airnav.com/airport/$1
+.notams .openurl https://notams.aim.faa.gov/notamSearch/nsapp.html#/
+.weather .openurl http://www.aviationweather.gov
+.suffixes .openurl https://wiki.nyartcc.org/index.php?title=Aircraft_Equipment_Suffixes
+.skyvector .openurl https://skyvector.com/?ll=&fpl=%20$dep%20undefined%20$arr
+.rwatis .openurl http://datis.clowd.io/$1
+.ais .openurl https://nyartcc.org/ais?q=$1
+
+##########################################################
+ZNY HELPER COMMANDS
+##########################################################
+.acy .msg ZNY-HELPER Atlantic City
+.adw .msg ZNY-HELPER Andrews
+.alb .msg ZNY-HELPER Albany
+.aml .msg ZNY-HELPER Armel
+.ard .msg ZNY-HELPER Yardley
+.atr .msg ZNY-HELPER Waterloo
+.baf .msg ZNY-HELPER Barnes
+.bal .msg ZNY-HELPER Baltimore
+.bdr .msg ZNY-HELPER Bridgeport
+.brv .msg ZNY-HELPER Brooke
+.bwz .msg ZNY-HELPER Broadway
+.cam .msg ZNY-HELPER Cambridge
+.cef .msg ZNY-HELPER Westover
+.cfb .msg ZNY-HELPER Binghamton
+.cip .msg ZNY-HELPER Clarion
+.cmk .msg ZNY-HELPER Carmel
+.col .msg ZNY-HELPER Colts Neck
+.csn .msg ZNY-HELPER Casanova
+.ctr .msg ZNY-HELPER Chester
+.cyn .msg ZNY-HELPER Coyle
+.ccc .msg ZNY-HELPER Calverton
+.dca .msg ZNY-HELPER Washington
+.dny .msg ZNY-HELPER Delancey
+.dqo .msg ZNY-HELPER Dupont
+.dov .msg ZNY-HELPER Dover
+.dpk .msg ZNY-HELPER Deer Park
+.elz .msg ZNY-HELPER Wellsville
+.emi .msg ZNY-HELPER Westminster
+.eno .msg ZNY-HELPER Smyrna
+.esl .msg ZNY-HELPER Kessel
+.etx .msg ZNY-HELPER East Texas
+.fdk .msg ZNY-HELPER Frederick
+.fjc .msg ZNY-HELPER Allentown
+.fok .msg ZNY-HELPER Suffolk 
+.fqm .msg ZNY-HELPER Williamsport
+.ggt .msg ZNY-HELPER Georgetown
+.gon .msg ZNY-HELPER Groton
+.gve .msg ZNY-HELPER Gordonsville
+.gxu .msg ZNY-HELPER Mc Guire
+.har .msg ZNY-HELPER Harrisburg 
+.hfd .msg ZNY-HELPER Hartford
+.hgr .msg ZNY-HELPER Hagerstown
+.hnk .msg ZNY-HELPER Hancock
+.hto .msg ZNY-HELPER Hampton
+.huo .msg ZNY-HELPER Huguenot
+.ign .msg ZNY-HELPER Kingston
+.ith .msg ZNY-HELPER Ithaca
+.jst .msg ZNY-HELPER Johnstown
+.ldn .msg ZNY-HELPER Linden
+.ign .msg ZNY-HELPER Kingston
+.lrp .msg ZNY-HELPER Lancaster
+.lvz .msg ZNY-HELPER Wilkes-Barre
+.mad .msg ZNY-HELPER Madison
+.mip .msg ZNY-HELPER Milton
+.mrb .msg ZNY-HELPER Martinsburg
+.mvy .msg ZNY-HELPER Martha's Vineyard
+.mxe .msg ZNY-HELPER Modena
+.nel .msg ZNY-HELPER Lakehurst
+.nhk .msg ZNY-HELPER Nas Patuxent River
+.ood .msg ZNY-HELPER Woodstown
+.orf .msg ZNY-HELPER Norfolk
+.ott .msg ZNY-HELPER Nottingham
+.ptw .msg ZNY-HELPER Pottstown
+.put .msg ZNY-HELPER Putnam 
+.pwl .msg ZNY-HELPER Pawling
+.pxt .msg ZNY-HELPER Patuxent
+.rav .msg ZNY-HELPER Ravine
+.rbv .msg ZNY-HELPER Robbinsville
+.rec .msg ZNY-HELPER Revloc
+.rka .msg ZNY-HELPER Rockdale
+.sax .msg ZNY-HELPER Sparta
+.sbj .msg ZNY-HELPER Solberg
+.sby .msg ZNY-HELPER Salisbury
+.seg .msg ZNY-HELPER Selingsgrove
+.sey .msg ZNY-HELPER Sandy Point 
+.sfk .msg ZNY-HELPER Stonyfork
+.sie .msg ZNY-HELPER Sea Isle
+.stw .msg ZNY-HELPER Stillwater
+.swl .msg ZNY-HELPER Snowhill
+.syr .msg ZNY-HELPER Syracuse
+.ths .msg ZNY-HELPER St. Thomas
+.uca .msg ZNY-HELPER Utica
+.ulw .msg ZNY-HELPER Elmira
+.vcn .msg ZNY-HELPER Cedar Lake
+
+.centerdep .center /4 $dep
+.centerarr .center /4 $arr
+
+.srs .msg ZNY-HELPER Summary of SRS: CAT I behind a CAT I = 3,000' | CAT II behind a CAT I = 4,500' | CAT I behind a CAT II = 3,000' | Whenever a CAT III is involved you need 6,000'
+.recat .msg ZNY-HELPER Summary of RECAT: CAT B behind CAT A = 5NM or 3 min | CAT C behind CAT B = 4NM or 2 min | CAT D or CAT E behind CAT B = 5NM or 2 min | CAT F behind CAT B = 5NM or 3 min | CAT D or CAT E behind CAT C = 3.5NM or 2 min | CAT F behind CAT C = 5NM or 3 min | CAT F behind CAT D = 4NM or 2 min
+
+.catacata .msg ZNY-HELPER LEADER: CAT A | FOLLOWER: CAT A | SEPARATION: NO RECAT SEPARATION
+.catacatb .msg ZNY-HELPER LEADER: CAT A | FOLLOWER: CAT B | SEPARATION: 5NM or 3 min
+.catacatc .msg ZNY-HELPER LEADER: CAT A | FOLLOWER: CAT C | SEPARATION: 6NM or 3 min
+.catacatd .msg ZNY-HELPER LEADER: CAT A | FOLLOWER: CAT D | SEPARATION: 7NM or 3 min
+.catacate .msg ZNY-HELPER LEADER: CAT A | FOLLOWER: CAT E | SEPARATION: 7NM or 3 min
+.catacatf .msg ZNY-HELPER LEADER: CAT A | FOLLOWER: CAT F | SEPARATION: 8NM or 3 min
+.catbcata .msg ZNY-HELPER LEADER: CAT B | FOLLOWER: CAT A | SEPARATION: NO RECAT SEPARATION
+.catbcatb .msg ZNY-HELPER LEADER: CAT B | FOLLOWER: CAT B | SEPARATION: 3NM or 2 min
+.catbcatc .msg ZNY-HELPER LEADER: CAT B | FOLLOWER: CAT C | SEPARATION: 4NM or 2 min
+.catbcatd .msg ZNY-HELPER LEADER: CAT B | FOLLOWER: CAT D | SEPARATION: 5NM or 2 min
+.catbcate .msg ZNY-HELPER LEADER: CAT B | FOLLOWER: CAT E | SEPARATION: 5NM or 2 min
+.catbcatf .msg ZNY-HELPER LEADER: CAT B | FOLLOWER: CAT F | SEPARATION: 5NM or 3 min
+.catccata .msg ZNY-HELPER LEADER: CAT C | FOLLOWER: CAT A | SEPARATION: NO RECAT SEPARATION
+.catccatb .msg ZNY-HELPER LEADER: CAT C | FOLLOWER: CAT B | SEPARATION: NO RECAT SEPARATION
+.catccatc .msg ZNY-HELPER LEADER: CAT C | FOLLOWER: CAT C | SEPARATION: NO RECAT SEPARATION
+.catccatd .msg ZNY-HELPER LEADER: CAT C | FOLLOWER: CAT D | SEPARATION: 3.5NM or 2 min
+.catccate .msg ZNY-HELPER LEADER: CAT C | FOLLOWER: CAT E | SEPARATION: 3.5NM or 2 min
+.catccatf .msg ZNY-HELPER LEADER: CAT C | FOLLOWER: CAT F | SEPARATION: 5NM or 3 min
+.catdcata .msg ZNY-HELPER LEADER: CAT D | FOLLOWER: CAT A | SEPARATION: NO RECAT SEPARATION
+.catdcatb .msg ZNY-HELPER LEADER: CAT D | FOLLOWER: CAT B | SEPARATION: NO RECAT SEPARATION
+.catdcatc .msg ZNY-HELPER LEADER: CAT D | FOLLOWER: CAT C | SEPARATION: NO RECAT SEPARATION
+.catdcatd .msg ZNY-HELPER LEADER: CAT D | FOLLOWER: CAT D | SEPARATION: NO RECAT SEPARATION
+.catdcate .msg ZNY-HELPER LEADER: CAT D | FOLLOWER: CAT E | SEPARATION: NO RECAT SEPARATION
+.catdcatf .msg ZNY-HELPER LEADER: CAT D | FOLLOWER: CAT F | SEPARATION: 4NM or 2 min
+.catecata .msg ZNY-HELPER LEADER: CAT E | FOLLOWER: CAT A | SEPARATION: NO RECAT SEPARATION
+.catecatb .msg ZNY-HELPER LEADER: CAT E | FOLLOWER: CAT B | SEPARATION: NO RECAT SEPARATION
+.catecatc .msg ZNY-HELPER LEADER: CAT E | FOLLOWER: CAT C | SEPARATION: NO RECAT SEPARATION
+.catecatd .msg ZNY-HELPER LEADER: CAT E | FOLLOWER: CAT D | SEPARATION: NO RECAT SEPARATION
+.catecate .msg ZNY-HELPER LEADER: CAT E | FOLLOWER: CAT E | SEPARATION: NO RECAT SEPARATION
+.catecatf .msg ZNY-HELPER LEADER: CAT E | FOLLOWER: CAT F | SEPARATION: NO RECAT SEPARATION
+.catfcata .msg ZNY-HELPER LEADER: CAT F | FOLLOWER: CAT A | SEPARATION: NO RECAT SEPARATION
+.catfcatb .msg ZNY-HELPER LEADER: CAT F | FOLLOWER: CAT B | SEPARATION: NO RECAT SEPARATION
+.catfcatc .msg ZNY-HELPER LEADER: CAT F | FOLLOWER: CAT C | SEPARATION: NO RECAT SEPARATION
+.catfcatd .msg ZNY-HELPER LEADER: CAT F | FOLLOWER: CAT D | SEPARATION: NO RECAT SEPARATION
+.catfcate .msg ZNY-HELPER LEADER: CAT F | FOLLOWER: CAT E | SEPARATION: NO RECAT SEPARATION
+.catfcatf .msg ZNY-HELPER LEADER: CAT F | FOLLOWER: CAT F | SEPARATION: NO RECAT SEPARATION
+
+##########################################################
+STICKY NOTES (VRC ONLY)
+##########################################################
+.speeds .sticky Speed Restriction Minima| |>FL390 prohibited without consent|FL280-10,000' -- 250 knots (0.6-0.65 mach)|Arriving Jets < 10,000' -- 210 knots|Arriving Jets < 10,000' (within 20 miles) -- 170 knots|Arriving Props < 10,000' -- 200 knots|Arriving Props < 10,000' (within 20 miles) -- 150 knots|Departing Jets -- 230 knots|Departing Props -- 150 knots|Helicopters-- 60 knots
+.wake .sticky Wake Turbulence Separation| |Departures| |2 minutes -- Small/large behind a heavy jet (same threshold)|3 minutes -- Small/large behind a heavy jet (intersection)| |Enroute| |Heavy jet behind heavy jet -- 4 miles|Large or heavy behind B757 -- 4 miles|Small behind B757 -- 5 miles|Small or large aircraft behind heavy jet -- 5 miles|Super behind super -- 4 miles|Heavy jet behind super -- 6 miles|Large behind super -- 8 miles|Small behind super -- 10 miles| |Arrival (small only)| |Small aircraft landing behind super -- 10 miles|Small aircraft landing behind heavy jet -- 6 miles|Small aircraft landing behind B757 -- 5 miles|Small aircraft landing behind large aircraft -- 4 miles| |Categories Defined| |Super -- A380 only|Heavy -- AOB 300,000 lbs.|Large -- 41,000-299,999 lbs.|Small -- < 41,000 lbs.

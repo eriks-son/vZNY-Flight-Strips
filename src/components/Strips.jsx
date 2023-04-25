@@ -309,8 +309,8 @@ const Strip = styled.div`
 
     .checkmark {
         position: absolute;
-        top: 68%;
-        left: 88%;
+        top: 66%;
+        left: 87.9%;
     }
 
     .checkmark button {
@@ -327,8 +327,8 @@ const Strip = styled.div`
     
     .cross {
         position: absolute;
-        top: 69%;
-        left: 94.5%;
+        top: 67%;
+        left: 94.1%;
     }
 
     .cross button {

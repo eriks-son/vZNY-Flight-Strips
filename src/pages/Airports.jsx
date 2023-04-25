@@ -49,15 +49,27 @@ function Airports() {
         setAirports(airportMap);
     }
 
+    const minorsButtonHandler = (e) => {
+        const major = e.target.id.substring(0, 4);
+        const isChecked = document.getElementById(e.target.id).checked;
+        for (const MAJOR of AIRPORTS) {
+            if (MAJOR.icao === major) {
+                for (const MINOR of MAJOR.minors) {
+                    document.getElementById(MINOR.icao + "_tracked").checked = isChecked;
+                }
+            }
+        }
+    }
+
     return (
       <FormStyle className="airportsForm" onSubmit={submitHandler}>
         <h1>Airports:</h1>
+        <ul className='majorList'>
         {AIRPORTS.map((major) => {
             return (
-                <ul className='majorList' id={major.icao + "_list"}>
                     <li>
                         <input type="checkbox" key={major.icao + "_tracked"} id={major.icao + "_tracked"} {...setTracked(major.icao)}/>
-                        <h3>{major.icao} Config:</h3>
+                        <h3>{major.icao}</h3>
                         <select id={major.icao + "_config"}>
                             {major.configs.map((config) => {
                                 return <option id={major + config} value={config}>{config}</option>;
@@ -65,9 +77,32 @@ function Airports() {
                         </select>
                         {major.icao === "KLGA" ? LGAairspace(airspace_lga, setAirspace_lga) : NaN}
                     </li>
-                </ul>
             )
         })}
+        {AIRPORTS.map((major) => {
+            return (
+                <div className={major + "_minors"}>
+                    <li>
+                        <input type="checkbox" onClick={minorsButtonHandler} key={major.icao + "_minors_tracked"} id={major.icao + "minors_tracked"}/>
+                        <h3>{major.icao} Minors:</h3>
+                    </li>
+                    {major.minors.map((minor) => {
+                        return (
+                            <li>
+                                <input type="checkbox" key={minor.icao + "_tracked"} id={minor.icao + "_tracked"} {...setTracked(minor.icao)}/>
+                                <h3>{minor.icao}</h3>
+                                <select id={minor.icao + "_config"}>
+                                {minor.configs.map((config) => {
+                                    return <option id={minor + config} value={config}>{config}</option>;
+                                })}
+                                </select>
+                            </li>
+                        )
+                    })}
+                </div>
+            )
+        })}
+        </ul>
         <div className='submit'><input type="submit"></input></div>
       </FormStyle>
     )
@@ -82,26 +117,28 @@ const FormStyle = styled.form`
         font-weight: bold;
     }
     .majorList {
-        justify-content: space-around;
         align-items: center;
         display: flex;
+        flex-direction: column;
         width: 100%;
         margin: 0;
         padding: 0;
     }
     .majorList li {
+        justify-content: space-around;
         margins: 1rem;
         align-items: center;
         display: flex;
+        width: 4rem;
     }
     .majorList h3 {
-        padding: 1rem;
-        display: flex;
+        padding: 2rem;
         letter-spacing: 0.1rem;
         font-family: 'Inconsolata', monospace;
         text-transform: uppercase;
         font-weight: bold;
         color: white;
+        font-size: 2rem;
     }
 
     .majorList input {
@@ -111,7 +148,6 @@ const FormStyle = styled.form`
         box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
         padding: 9px;
         border-radius: 3px;
-        display: inline-block;
         -ms-transform: scale(2); /* IE */
         -moz-transform: scale(2); /* FF */
         -webkit-transform: scale(2); /* Safari and Chrome */
@@ -169,6 +205,7 @@ const FormStyle = styled.form`
         display: flex;
         text-align: center;
         height: 2rem;
+        padding: 1rem;
     }
 
     .submit input{

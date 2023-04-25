@@ -55,22 +55,34 @@ function Strips() {
         for (const MAJOR of AIRPORTS) {
             airportConfig = localStorage.getItem(MAJOR.icao);
             if (airportConfig != null) airportMap.set(MAJOR.icao, airportConfig);
+            for (const MINOR of MAJOR.minors) {
+                airportConfig = localStorage.getItem(MINOR.icao);
+                if (airportConfig != null) airportMap.set(MINOR.icao, airportConfig);
+            }
         }
         setAirports(airportMap);
+    }
+
+    const stripFilter = (flight) => {
+        if (!flight.flight_plan) return false;
+        const dep = flight.flight_plan.departure;
+        if (!airports.has(dep)) return false;
+        if (deleted.includes(flight.cid)) return false;
+        if (!flight.callsign.includes(search)) return false;
+        if (flight.flight_plan.flight_rules != "I") return false;
+        for (const MAJOR of AIRPORTS){
+            if (MAJOR.icao === dep) return flight.altitude < MAJOR.altitude + 50;
+            for (const MINOR in MAJOR.minors) {
+                if (MINOR.icao === dep) return flight.altitude < MINOR.altitude + 50;
+            }
+        }
     }
 
     const getStrips = async () => {
         console.log(airports);
         const api = await fetch('https://data.vatsim.net/v3/vatsim-data.json');
         const data = await api.json();
-        const stripsData = data.pilots.filter(function (flight) {
-            return flight.flight_plan 
-            && airports.has(flight.flight_plan.departure)
-            && flight.altitude < 50
-            && !deleted.includes(flight.cid)
-            && flight.callsign.includes(search)
-            && flight.flight_plan.flight_rules === "I";
-        });
+        const stripsData = data.pilots.filter(stripFilter);
         setStrips(stripsData);
     };
 

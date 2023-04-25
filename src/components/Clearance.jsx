@@ -70,6 +70,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         let cleaned = strip.flight_plan.route.replace("+", "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
         cleaned = cleaned.replace(strip.flight_plan.arrival, "");
+        cleaned = cleaned.replace("DCT", "");
         for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
         cleaned = cleaned.replace("  ", " ");
         return dp + " " + cleaned;

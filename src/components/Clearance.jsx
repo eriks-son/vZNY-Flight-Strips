@@ -62,17 +62,18 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
         cleaned = cleaned.replace(strip.flight_plan.arrival, "");
-        cleaned = cleaned.replace("  ", " ");
+        cleaned = cleaned.replaceAll("DCT", "");
+        cleaned = cleaned.replaceAll("  ", " ");
         return cleaned.slice(0, 130) + ((130 < strip.flight_plan.route.length) ? "..." : "");
     }
 
     const DPRoute = () => {
-        let cleaned = strip.flight_plan.route.replace("+", "");
+        let cleaned = strip.flight_plan.route.replaceAll("+", "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
         cleaned = cleaned.replace(strip.flight_plan.arrival, "");
-        cleaned = cleaned.replace("DCT", "");
+        cleaned = cleaned.replaceAll("DCT", "");
         for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
-        cleaned = cleaned.replace("  ", " ");
+        cleaned = cleaned.replaceAll("  ", " ");
         return dp + " " + cleaned;
     }
 

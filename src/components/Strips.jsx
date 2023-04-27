@@ -70,16 +70,16 @@ function Strips() {
         if (deleted.includes(flight.cid)) return false;
         if (!flight.callsign.includes(search)) return false;
         if (flight.flight_plan.flight_rules != "I") return false;
+        if (flight.callsign === "N51TP") console.log("YAY");
         for (const MAJOR of AIRPORTS){
             if (MAJOR.icao === dep) return flight.altitude < MAJOR.altitude + 50;
-            for (const MINOR in MAJOR.minors) {
+            for (const MINOR of MAJOR.minors) {
                 if (MINOR.icao === dep) return flight.altitude < MINOR.altitude + 50;
             }
         }
     }
 
     const getStrips = async () => {
-        console.log(airports);
         const api = await fetch('https://data.vatsim.net/v3/vatsim-data.json');
         const data = await api.json();
         const stripsData = data.pilots.filter(stripFilter);
@@ -267,7 +267,7 @@ const Strip = styled.div`
         display: flex;
         font-size: 3vw;
         top: 49%;
-        left: 20.5%;
+        left: 20%;
     }
 
     .departure {

@@ -21,8 +21,12 @@ function Airports() {
                 }
             }
             else localStorage.removeItem(MAJOR.icao);
+            for (const MINOR of MAJOR.minors) {
+                if (document.getElementById(MINOR.icao + "_tracked").checked) {
+                    localStorage.setItem(MINOR.icao, document.getElementById(MINOR.icao + "_config").value)
+                } else localStorage.removeItem(MINOR.icao);
+            }
         }
-        //alert("Saved!");
         navigate('/');
     }
     
@@ -43,6 +47,10 @@ function Airports() {
         for (const MAJOR of AIRPORTS) {
             airportConfig = localStorage.getItem(MAJOR.icao);
             if (airportConfig != null) airportMap.set(MAJOR.icao, airportConfig);
+            for (const MINOR of MAJOR.minors) {
+                airportConfig = localStorage.getItem(MINOR.icao);
+                if (airportConfig != null) airportMap.set(MINOR.icao, airportConfig);
+            }
         }
         var airspace = localStorage.getItem("KLGA_airspace");
         setAirspace_lga(airspace);

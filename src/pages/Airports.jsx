@@ -144,6 +144,7 @@ const FormStyle = styled.form`
         letter-spacing: 0.1rem;
         font-family: 'Inconsolata', monospace;
         text-transform: uppercase;
+        text-align: center;
         font-weight: bold;
         color: white;
         font-size: 2rem;

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import blankStrip from './FlightStripBlank.png';
-import { FcCheckmark, FcCancel } from "react-icons/fc"; 
+import { FcCheckmark, FcCancel } from "react-icons/fc";
+import { MdOutlineClear } from "react-icons/md";
 import Clearance from './Clearance';
 
 
@@ -110,7 +111,12 @@ function Strips() {
         <div>
             <Wrapper>
                 <div className="search">
-                <input key="search" value={search} type="text" placeholder='Enter Partial Callsign' onChange={handleSearchChange}/>
+                    <input key="search" value={search} type="text" placeholder='Enter Partial Callsign' onChange={handleSearchChange}/>
+                    <div className='clearSearch'>
+                        <button onClick={() => {setSearch("")}}>
+                            <MdOutlineClear />
+                        </button>
+                    </div>
                 </div>
                 {strips.sort((f1, f2) => (f1.callsign > f2.callsign) ? 1 : (f1.callsign < f2.callsign) ? -1 : 0).map((strip) => {
                     return (
@@ -152,9 +158,10 @@ const Wrapper = styled.div`
 
     .search {
         padding: 1rem;
-        margin: 1.5rem;
+        margin: 1.5rem; 
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
+        align-items: center;
     }
 
     .search input { 
@@ -168,6 +175,17 @@ const Wrapper = styled.div`
         color: white;
         font-weight: bold;
         font-size: 2vw;
+    }
+
+    .clearSearch {
+        transform: translate(0, 10%);
+    }
+
+    .clearSearch button {
+        font-size: 4vw;
+        border: none;
+        background: none;
+        color: #666;
     }
 
     .reset {

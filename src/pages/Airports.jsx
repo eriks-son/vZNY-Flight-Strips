@@ -11,6 +11,7 @@ function Airports() {
 
     const navigate = useNavigate();
 
+    // Add all selected airports to local storage with config, otherwise remove
     const submitHandler = (e) => {
         e.preventDefault();
         for (const MAJOR of AIRPORTS) {
@@ -34,6 +35,7 @@ function Airports() {
         getAirports();
     }, [])
 
+    // Set value as tracked and get config
     const setTracked = (icao) => {
         if (airports.has(icao)) {
             document.getElementById(icao + "_tracked").checked = true;
@@ -41,6 +43,7 @@ function Airports() {
         }
     }
 
+    // Get current airports and configs from local storage
     const getAirports = async () => {
         let airportMap = new Map();
         var airportConfig;
@@ -57,6 +60,7 @@ function Airports() {
         setAirports(airportMap);
     }
 
+    // Track/untrack all minors of a major when pressed
     const minorsButtonHandler = (e) => {
         const major = e.target.id.substring(0, 4);
         const isChecked = document.getElementById(e.target.id).checked;

@@ -14,6 +14,7 @@ function Freq() {
         getFreq();
     }, [hidden]);
 
+    // Set the frequency in local storange and hide it again
     const submitHandler = (e) => {
         if (e instanceof Object) e.preventDefault();
         localStorage.setItem('freq', freq);
@@ -24,6 +25,7 @@ function Freq() {
         setHidden("freq");
     }
 
+    // Default freq to NY_CTR. Get freq from local storage otherwise
     const getFreq = async () => {
         let frequency = localStorage.getItem('freq');
         if (frequency === null) {
@@ -33,6 +35,7 @@ function Freq() {
         setFreq(frequency);
     };
 
+    // Hide if not hidden. Show if hidden
     const clickHandler = () => {
         if (hidden === "") {
             submitHandler(NaN);

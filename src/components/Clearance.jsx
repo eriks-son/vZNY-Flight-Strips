@@ -7,24 +7,30 @@ import { FaRoute } from "react-icons/fa";
 import * as types from "./airports/types";
 
 function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config}) {
+    // Airport files use the same named functions and the specific airport will be required on load
     const airport = require('./airports/' + strip.flight_plan.departure + ".js");
 
+    /// Delete strip when cleared
     const handleClearanceFinal = useCallback(event => {
         onClearanceChange("");
         onDeletedChange(strip);
     })
 
+    // Cancel clearing the strip (don't delete, just stop clearing)
     const handleCancel = useCallback(event => {
         onClearanceChange("");
     })
 
+    // Change the dp when the select's option changes
     const handleDpChange = () => {
         setDp(document.getElementById("dp-select").value);
     }
 
+    // Change the type when the select's option changes
     const handleTypeChange = () => {
         setType(document.getElementById("type-select").value);
     }
+
     const [alt, setAlt] = useState("");
 
     const [dp, setDp] = useState("");
@@ -47,6 +53,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         setPdc2(airport.getPDC2(config, pdc1));
     }
 
+    // Defaults to type jet. List will need to be added to if there's not a better list of types
     const getType = () => {
         if (types.PROPS.includes(strip.flight_plan.aircraft_short)) setType("prop");
         else if (types.TURBOPROPS.includes(strip.flight_plan.aircraft_short)) setType("turboprop");
@@ -57,6 +64,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         setAlt(strip.flight_plan.altitude);
     }
 
+    // Remove all crud from route and slice if too long (no DP)
     const cleanRoute = () => {
         let cleaned = strip.flight_plan.route.replace("+", "");
         for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
@@ -67,6 +75,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         return cleaned.slice(0, 130) + ((130 < strip.flight_plan.route.length) ? "..." : "");
     }
 
+    // Remove all crud from route and add DP on front
     const DPRoute = () => {
         let cleaned = strip.flight_plan.route.replaceAll("+", "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
@@ -100,6 +109,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         getPdc2();
     }, [pdc1]);
     
+    // Only return if it's being cleared
     if (strip.callsign === clearance) {
   return (
     <div>

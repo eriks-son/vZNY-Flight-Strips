@@ -16,6 +16,7 @@ function Strips() {
     const [clearance, setClearance] = useState("");
     const [search, setSearch] = useState("");
 
+    // Handle deleting a strip
     const crossHandle = (strip) => {
         const deletedNew = [...deleted, strip.cid];
         setDeleted(deletedNew);
@@ -40,6 +41,7 @@ function Strips() {
     }, [airports]);
 
     useEffect(() => {
+        // Refresh every 5 seconds
         const interval = setInterval(() => {
             setTime(new Date());
         }, 5000);
@@ -50,6 +52,7 @@ function Strips() {
         return () => clearInterval(interval);
     }, []);
 
+    // Grab all deleted aircraft from local storage
     const getDeleted = () => {
         let deletedData = localStorage.getItem('deleted');
         if (deletedData === '' || deletedData === null) {
@@ -60,6 +63,7 @@ function Strips() {
         setDeleted(deletedData);
     }
 
+    // Get all tracked airports from local storage (plus LGA airspace)
     const getAirports = () => {
         let airportMap = new Map();
         var airportConfig; 
@@ -74,13 +78,14 @@ function Strips() {
         setAirports(airportMap);
     }
 
+    // Return if a strip should be shown
     const stripFilter = (flight) => {
         if (!flight.flight_plan) return false;
         const dep = flight.flight_plan.departure;
         if (!airports.has(dep)) return false;
         if (deleted.includes(flight.cid)) return false;
         if (!flight.callsign.includes(search)) return false;
-        if (flight.flight_plan.flight_rules != "I") return false;
+        if (flight.flight_plan.flight_rules !== "I") return false;
         if (flight.callsign === "N51TP") console.log("YAY");
         for (const MAJOR of AIRPORTS){
             if (MAJOR.icao === dep) return flight.altitude < MAJOR.altitude + 50;
@@ -90,6 +95,7 @@ function Strips() {
         }
     }
 
+    // Get all strips from vatsim data and filter
     const getStrips = async () => {
         const api = await fetch('https://data.vatsim.net/v3/vatsim-data.json');
         const data = await api.json();
@@ -97,11 +103,13 @@ function Strips() {
         setStrips(stripsData);
     };
 
+    // Clear deleted
     const handleReset = () => {
         localStorage.setItem('deleted', JSON.stringify([]));
         setDeleted([]);
     }
 
+    // Change callsign search and prevent enter
     const handleSearchChange = (e) => {
         e.preventDefault();
         setSearch(e.target.value.toUpperCase());

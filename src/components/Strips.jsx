@@ -8,6 +8,7 @@ import Clearance from './Clearance';
 function Strips() {
     const AIRPORTS = require('../components/airports.json');
 
+    const [time, setTime] = useState(new Date());
     const [strips, setStrips] = useState([]);
     const [deleted, setDeleted] = useState([]);
     const [airports, setAirports] = useState(new Map());
@@ -23,6 +24,10 @@ function Strips() {
 
     useEffect(() => {
         getStrips();
+    }, [time])
+
+    useEffect(() => {
+        getStrips();
     }, [search]);
 
     useEffect(() => {
@@ -34,9 +39,14 @@ function Strips() {
     }, [airports]);
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(new Date());
+        }, 5000);
         getAirports();
         getDeleted();
         getStrips();
+
+        return () => clearInterval(interval);
     }, []);
 
     const getDeleted = () => {

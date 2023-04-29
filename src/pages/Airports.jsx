@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { LGAairspace } from '../components/airports/KLGA';
+import AIRPORTS from '../components/airports.json';
 
 function Airports() {
-    const AIRPORTS = require('../components/airports.json');
 
     const [airports, setAirports] = useState(new Map());
     const [airspace_lga, setAirspace_lga] = useState("");

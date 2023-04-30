@@ -27,6 +27,18 @@ function PRD({strip, setRoute}) {
         getRoutes();
     }, []);
 
+    console.log(prdRoutes);
+
+    if (!prdRoutes.hasOwnProperty("statusCode")) {
+        return (
+            <PRDNone>
+                <h2>
+                    LOADING
+                </h2>
+            </PRDNone>
+        )
+    }
+
     if (prdRoutes.statusCode != 200) {
         return (
             <PRDNone>
@@ -95,6 +107,7 @@ const PRDSelect = styled.div`
 
     select {
         font-family: 'Inconsolata', monospace;
+        font-size: 1.2em;
         letter-spacing: 0.1rem;
         text-transform: uppercase;
         font-weight: bold;
@@ -111,11 +124,15 @@ const PRDNone = styled.div`
     padding: 0;
 
     h2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 0.3rem 0rem;
         font-family: 'Inconsolata', monospace;
         letter-spacing: 0.1rem;
         text-transform: uppercase;
         font-weight: bold;
+        font-size: 1.2em;
         height: 4vh;
         width: 100%;
         text-align: center;

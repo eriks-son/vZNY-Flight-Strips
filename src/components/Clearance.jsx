@@ -5,6 +5,7 @@ import { FcCheckmark, FcUndo } from "react-icons/fc";
 import logoImage from './ZNY-transparent-black-1000x1000px.png';
 import { FaRoute } from "react-icons/fa";
 import * as types from "./airports/types";
+import PRD from "./PRD";
 
 function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config}) {
     // Airport files use the same named functions and the specific airport will be required on load
@@ -41,6 +42,8 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
 
     const [pdc2, setPdc2] = useState("");
 
+    const [route, setRoute] = useState("");
+
     const getDp = () => {
         setDp(airport.getDP(strip, config, type));
     }
@@ -66,7 +69,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
 
     // Remove all crud from route and slice if too long (no DP)
     const cleanRoute = () => {
-        let cleaned = strip.flight_plan.route.replace("+", "");
+        let cleaned = route.replace("+", "");
         for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
         cleaned = cleaned.replace(strip.flight_plan.arrival, "");
@@ -77,7 +80,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
 
     // Remove all crud from route and add DP on front
     const DPRoute = () => {
-        let cleaned = strip.flight_plan.route.replaceAll("+", "");
+        let cleaned = route.replaceAll("+", "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
         cleaned = cleaned.replace(strip.flight_plan.arrival, "");
         cleaned = cleaned.replaceAll("DCT", "");
@@ -87,6 +90,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
     }
 
     useEffect(() => {
+        setRoute(strip.flight_plan.route);
         getType();
         getDp();
         getAlt();
@@ -108,6 +112,12 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
     useEffect(() => {
         getPdc2();
     }, [pdc1]);
+
+    useEffect(() => {
+        getDp();
+        getPdc1();
+        getPdc2();
+    }, [route]);
     
     // Only return if it's being cleared
     if (strip.callsign === clearance) {
@@ -158,6 +168,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
             <div className="checkmark"><button onClick={handleClearanceFinal}><FcCheckmark /></button></div>
             <div className="cross"><button onClick={handleCancel}><FcUndo /></button></div>
         </NewStrip>
+        <PRD strip={strip} setRoute={setRoute} />
     </div>
   )
   }
@@ -344,13 +355,14 @@ const NewStrip = styled.div`
     
     .checkmark {
         position: absolute;
-        top: 68%;
+        top: 65%;
         left: 88%;
     }
 
     .checkmark button {
         font-size: 4vw;
         border: none;
+        height: 50%;
         background: none;
         opacity: 50%;
     }
@@ -362,8 +374,8 @@ const NewStrip = styled.div`
     
     .cross {
         position: absolute;
-        top: 69%;
-        left: 94.5%;
+        top: 65%;
+        left: 94%;
     }
 
     .cross button {

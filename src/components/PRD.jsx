@@ -16,6 +16,13 @@ function PRD({strip, setRoute}) {
         setRoute(document.getElementById("prdRouteSelect").value);
     }
 
+    const replaceHTML = (text) => {
+        let newText = text.replaceAll("&EQUALS;", "=");
+        newText = newText.replaceAll("&GT;", ">");
+        newText = newText.replaceAll("&LT;", "<");
+        return newText;
+    }
+
     useEffect(() => {
         getRoutes();
     }, []);
@@ -65,8 +72,8 @@ function PRD({strip, setRoute}) {
                         return (
                             <option value={route.route} className={route.pref == 1 ? "preferred" : "faa"}>
                                 Area: {route.area.length > 0 ? route.area : "None"} | 
-                                Altitude: {route.alt.length > 0 ? route.alt: "None"} | 
-                                Aircraft: {route.aircraft.length > 0 ? route.aircraft : "None"}
+                                Altitude: {route.alt.length > 0 ? replaceHTML(route.alt): "None"} | 
+                                Aircraft: {route.aircraft.length > 0 ? replaceHTML(route.aircraft) : "None"}
                             </option>
                         )
                     })}

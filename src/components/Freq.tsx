@@ -5,17 +5,25 @@ import styled from 'styled-components';
 function Freq() {
     const [freq, setFreq] = useState("");
     const [hidden, setHidden] = useState("");
-    
+
     useEffect(() => {
         defaultStart();
     }, []);
 
     useEffect(() => {
-        getFreq();
+        const getFreq = async () => {
+            let frequency = localStorage.getItem('freq');
+            if (frequency === null) {
+                frequency = "125.325";
+                localStorage.setItem('freq', frequency);
+            }
+            setFreq(frequency);
+        };
+        void getFreq();
     }, [hidden]);
 
-    const submitHandler = (e) => {
-        if (e instanceof Object) e.preventDefault();
+    const submitHandler = (e?: React.FormEvent) => {
+        e?.preventDefault();
         localStorage.setItem('freq', freq);
         setHidden("freq");
     };
@@ -24,18 +32,11 @@ function Freq() {
         setHidden("freq");
     }
 
-    const getFreq = async () => {
-        let frequency = localStorage.getItem('freq');
-        if (frequency === null) {
-            frequency = "125.325";
-            localStorage.setItem('freq', frequency);
-        }
-        setFreq(frequency);
-    };
+
 
     const clickHandler = () => {
         if (hidden === "") {
-            submitHandler(NaN);
+            submitHandler();
         } else {
             setHidden("");
         }
@@ -82,8 +83,6 @@ const FormStyle = styled.form`
         background: #333;
         font-size: 3vw;
         color: white;
-        border: none;
-        border-radius 1rem;
         outline: none;
         width: 15vw;
     }

@@ -1,16 +1,19 @@
+import { AirportConfig } from "../airportData";
+import { PilotData } from "components/Strips";
+
 export const DPs = ["LONGI7"]
 
-export function getDP(strip, config, type) {
+export function getDP(strip: PilotData, config: AirportConfig, type: string) {
     return DPs[0];
 }
 
-export function getPDC1(strip, config, dp, type) {
+export function getPDC1(strip: PilotData, config: AirportConfig, dp: string, type: string) {
     if (dp === DPs[0]) {
         return ".cisp";
     } else return "Error with pdc1";
 }
 
-export function getPDC2(config, pdc1) {
+export function getPDC2(config: AirportConfig, pdc1: string) {
     if (config === "Dep 24/Land 24") {
         return ".pdc2 24";
     } else if (config === "Dep 6/Land 6"){

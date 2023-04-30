@@ -1,39 +1,54 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import blankStrip from './ClearanceStripBlank.png';
-import { FcCheckmark, FcUndo } from "react-icons/fc"; 
+import { FcCheckmark, FcUndo } from "react-icons/fc";
 import logoImage from './ZNY-transparent-black-1000x1000px.png';
 import { FaRoute } from "react-icons/fa";
-import * as types from "./airports/types";
+import * as types from "../airports/types";
+import * as airports from "../airports";
+import { PilotData } from "./Strips";
+import { AirportConfig } from "../airportData";
 
-function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config}) {
-    const airport = require('./airports/' + strip.flight_plan.departure + ".js");
+type Airport = {
+    DPs: string[];
+    getDP: (strip: PilotData, config: AirportConfig, type: string) => string;
+    getPDC1: (strip: PilotData, config: AirportConfig, dp: string, type: string) => string;
+    getPDC2: (config: AirportConfig, pdc1: string) => string;
+}
 
-    const handleClearanceFinal = useCallback(event => {
+type ClearanceProps = {
+    strip: PilotData;
+    clearance: string;
+    onClearanceChange: (clearance: string) => void;
+    onDeletedChange: (strip: PilotData) => void;
+    config: AirportConfig;
+}
+function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config}: ClearanceProps) {
+    const [alt, setAlt] = useState("");
+    const [dp, setDp] = useState("");
+    const [type, setType] = useState("");
+    const [pdc1, setPdc1] = useState("");
+    const [pdc2, setPdc2] = useState("");
+
+    // @ts-ignore
+    const airport = airports[strip.flight_plan.departure] as Airport;
+
+    const handleClearanceFinal = () => {
         onClearanceChange("");
         onDeletedChange(strip);
-    })
+    };
 
-    const handleCancel = useCallback(event => {
+    const handleCancel = () => {
         onClearanceChange("");
-    })
+    };
 
-    const handleDpChange = () => {
-        setDp(document.getElementById("dp-select").value);
+    const handleDpChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setDp(e.target.value);
     }
 
-    const handleTypeChange = () => {
-        setType(document.getElementById("type-select").value);
+    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setType(e.target.value);
     }
-    const [alt, setAlt] = useState("");
-
-    const [dp, setDp] = useState("");
-
-    const [type, setType] = useState("");
-
-    const [pdc1, setPdc1] = useState("");
-
-    const [pdc2, setPdc2] = useState("");
 
     const getDp = () => {
         setDp(airport.getDP(strip, config, type));
@@ -99,9 +114,8 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
     useEffect(() => {
         getPdc2();
     }, [pdc1]);
-    
-    if (strip.callsign === clearance) {
-  return (
+
+  return (strip.callsign === clearance ?
     <div>
         <NewStrip key={strip.cid}>
             <img src={blankStrip} alt={strip.callsign}></img>
@@ -120,7 +134,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
             <div className="dp">
                 <select id="dp-select" value={dp} onChange={handleDpChange}>
                     {airport.DPs.map((departureProcedure) => {
-                        return <option id={departureProcedure} value={departureProcedure}>{departureProcedure}</option>
+                        return <option key={departureProcedure} id={departureProcedure} value={departureProcedure}>{departureProcedure}</option>
                     })}
                 </select>
             </div>
@@ -149,8 +163,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
             <div className="cross"><button onClick={handleCancel}><FcUndo /></button></div>
         </NewStrip>
     </div>
-  )
-  }
+   : null);
 }
 
 const NewStrip = styled.div`
@@ -263,8 +276,6 @@ const NewStrip = styled.div`
         border: none;
         background: none;
         font-size: 3vw;
-        border: none;
-        border-radius 1rem;
         outline: none;
         width: 8vw;
     }
@@ -296,8 +307,7 @@ const NewStrip = styled.div`
         height: 9vh;
         top: 35%;
         left: 30.3%;
-        overflow-wrap: break;
-        font-size: 2vw;
+        overflow-wrap: break-word;
     }
 
     .arrival {

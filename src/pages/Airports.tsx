@@ -1,103 +1,83 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { LGAairspace } from '../components/airports/KLGA';
+import {airportData} from "../airportData";
+
+type LGAAirspace = "none" | "coney" | "belmont" | "both";
+
+function LGAAirspaceSelect(airspace: LGAAirspace, setAirspace: (airspace: LGAAirspace) => void) {
+    return (
+      <select value={airspace} onChange={(e) => {setAirspace(e.target.value as LGAAirspace)}}>
+          <option id="none" value="none">None</option>
+          <option id="coney" value="coney">Coney</option>
+          <option id="belmont" value="belmont">Belmont</option>
+          <option id="both" value="both">Both</option>
+      </select>
+    );
+}
 
 function Airports() {
-    const AIRPORTS = require('../components/airports.json');
-
-    const [airports, setAirports] = useState(new Map());
-    const [airspace_lga, setAirspace_lga] = useState("");
+    const [lgaAirspace, setLgaAirspace] = useState<LGAAirspace>("none");
+    const [trackedAirports, setTrackedAirports] = useState<string[]>([]);
 
     const navigate = useNavigate();
 
-    const submitHandler = (e) => {
+    const submitHandler = (e: React.FormEvent) => {
         e.preventDefault();
-        for (const MAJOR of AIRPORTS) {
-            if (document.getElementById(MAJOR.icao + "_tracked").checked) {
-                localStorage.setItem(MAJOR.icao, document.getElementById(MAJOR.icao + "_config").value);
-                if (MAJOR.icao === "KLGA") {
-                    localStorage.setItem("KLGA_airspace", document.getElementById("KLGA_airspace").value)
-                }
-            }
-            else localStorage.removeItem(MAJOR.icao);
-            for (const MINOR of MAJOR.minors) {
-                if (document.getElementById(MINOR.icao + "_tracked").checked) {
-                    localStorage.setItem(MINOR.icao, document.getElementById(MINOR.icao + "_config").value)
-                } else localStorage.removeItem(MINOR.icao);
-            }
-        }
+        localStorage.setItem("trackedAirports", JSON.stringify(trackedAirports));
         navigate('/');
     }
-    
+
     useEffect(() => {
-        getAirports();
-    }, [])
-
-    const setTracked = (icao) => {
-        if (airports.has(icao)) {
-            document.getElementById(icao + "_tracked").checked = true;
-            document.getElementById(icao + "_config").value = airports.get(icao);
+        const _trackedAirports = JSON.parse(localStorage.getItem("trackedAirports") ?? "[]");
+        const airspace = localStorage.getItem("KLGA_airspace") ?? "";
+        if (Array.isArray(_trackedAirports)) {
+            setTrackedAirports(_trackedAirports);
+        } else {
+            setTrackedAirports([]);
+            localStorage.removeItem("trackedAirports");
         }
-    }
-
-    const getAirports = async () => {
-        let airportMap = new Map();
-        var airportConfig;
-        for (const MAJOR of AIRPORTS) {
-            airportConfig = localStorage.getItem(MAJOR.icao);
-            if (airportConfig != null) airportMap.set(MAJOR.icao, airportConfig);
-            for (const MINOR of MAJOR.minors) {
-                airportConfig = localStorage.getItem(MINOR.icao);
-                if (airportConfig != null) airportMap.set(MINOR.icao, airportConfig);
-            }
+        if (airspace === "none" || airspace === "belmont" || airspace === "coney" || airspace === "both") {
+            setLgaAirspace(airspace);
+        } else {
+            setLgaAirspace("none");
+            localStorage.removeItem("KLGA_airspace");
         }
-        var airspace = localStorage.getItem("KLGA_airspace");
-        setAirspace_lga(airspace);
-        setAirports(airportMap);
-    }
+    }, []);
 
-    const minorsButtonHandler = (e) => {
-        const major = e.target.id.substring(0, 4);
-        const isChecked = document.getElementById(e.target.id).checked;
-        for (const MAJOR of AIRPORTS) {
-            if (MAJOR.icao === major) {
-                for (const MINOR of MAJOR.minors) {
-                    document.getElementById(MINOR.icao + "_tracked").checked = isChecked;
-                }
-            }
-        }
+    const airportChangeHandler = (e: React.ChangeEvent, icao: string) => {
+        setTrackedAirports((prev) => prev.includes(icao) ? prev.filter((airport) => airport !== icao) : [...prev, icao]);
     }
 
     return (
-      <FormStyle className="airportsForm" onSubmit={submitHandler}>
+      <StyledForm className="airportsForm" onSubmit={submitHandler}>
         <h1>Airports:</h1>
         <ul className='majorList'>
-        {AIRPORTS.map((major) => {
+        {airportData.map((major) => {
             return (
-                    <li>
-                        <input type="checkbox" key={major.icao + "_tracked"} id={major.icao + "_tracked"} {...setTracked(major.icao)}/>
+                    <li key={major.icao}>
+                        <input type="checkbox" id={major.icao + "_tracked"} onChange={(e) => airportChangeHandler(e,  major.icao)} checked={trackedAirports.includes(major.icao)}/>
                         <h3>{major.icao}</h3>
                         <select id={major.icao + "_config"}>
                             {major.configs.map((config) => {
-                                return <option id={major + config} value={config}>{config}</option>;
+                                return <option key={config} id={major + config} value={config}>{config}</option>;
                             })}
                         </select>
-                        {major.icao === "KLGA" ? LGAairspace(airspace_lga, setAirspace_lga) : NaN}
+                        {major.icao === "KLGA" ? LGAAirspaceSelect(lgaAirspace, setLgaAirspace) : null}
                     </li>
             )
         })}
-        {AIRPORTS.map((major) => {
+        {airportData.map((major) => {
             return (
                 <div className={major + "_minors"}>
                     <li>
-                        <input type="checkbox" onClick={minorsButtonHandler} key={major.icao + "_minors_tracked"} id={major.icao + "minors_tracked"}/>
+                        <input type="checkbox" key={major.icao} id={major.icao + "minors_tracked"}/>
                         <h3>{major.icao} Minors:</h3>
                     </li>
                     {major.minors.map((minor) => {
                         return (
                             <li>
-                                <input type="checkbox" key={minor.icao + "_tracked"} id={minor.icao + "_tracked"} {...setTracked(minor.icao)}/>
+                                <input type="checkbox" key={minor.icao} id={minor.icao + "_tracked"} onChange={(e) => airportChangeHandler(e,  minor.icao)} checked={trackedAirports.includes(minor.icao)}/>
                                 <h3>{minor.icao}</h3>
                                 <select id={minor.icao + "_config"}>
                                 {minor.configs.map((config) => {
@@ -112,11 +92,11 @@ function Airports() {
         })}
         </ul>
         <div className='submit'><input type="submit"></input></div>
-      </FormStyle>
+      </StyledForm>
     )
 }
 
-const FormStyle = styled.form`
+const StyledForm = styled.form`
     h1 {
         text-align:center;
         letter-spacing: 0.1rem;
@@ -134,7 +114,7 @@ const FormStyle = styled.form`
     }
     .majorList li {
         justify-content: space-around;
-        margins: 1rem;
+        margin: 1rem;
         align-items: center;
         display: flex;
         width: 4rem;
@@ -152,10 +132,9 @@ const FormStyle = styled.form`
 
     .majorList input {
         -webkit-appearance: none;
-        background-color: none;
+        background-color: transparent;
         border: 1px solid #333;
         box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-        padding: 9px;
         border-radius: 3px;
         -ms-transform: scale(2); /* IE */
         -moz-transform: scale(2); /* FF */

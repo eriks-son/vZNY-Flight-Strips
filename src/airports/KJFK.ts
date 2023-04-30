@@ -1,9 +1,12 @@
+import { PilotData } from "../components/Strips";
+import { AirportConfig } from "../airportData";
+
 export const DPs = ["SKORR5", "JFK5", "DEEZZ5"]
 
-export function getDP(strip, config, type) {
+export function getDP(strip: PilotData, config: AirportConfig, type: string) {
     if (strip.flight_plan.route.includes("DEEZZ")) return DPs[2];
     else if (config === "Dep 31L/Land 31R") {
-        if (strip.flight_plan.route.includes("RBV") 
+        if (strip.flight_plan.route.includes("RBV")
         || strip.flight_plan.route.includes("WHITE")
         || strip.flight_plan.route.includes("DIXIE")) return DPs[0];
         else if (type === "prop" || type === "turboprop") return DPs[1];
@@ -12,9 +15,9 @@ export function getDP(strip, config, type) {
     else return DPs[1];
 }
 
-export function getPDC1(strip, config, dp, type) {
+export function getPDC1(strip: PilotData, config: AirportConfig, dp: string, type: string) {
     if (dp === "SKORR5") {
-        if (strip.flight_plan.route.includes("RBV") 
+        if (strip.flight_plan.route.includes("RBV")
         || strip.flight_plan.route.includes("WHITE")
         || strip.flight_plan.route.includes("DIXIE")) return ".cskorr RNGRR";
         else return ".cskorr YNKEE";
@@ -24,7 +27,7 @@ export function getPDC1(strip, config, dp, type) {
         else return ".cdeezz CANDR";
     } else if (dp === "JFK5") {
         if (config === "Dep 31L/Land 31R") {
-            if (strip.flight_plan.route.includes("RBV") 
+            if (strip.flight_plan.route.includes("RBV")
             || strip.flight_plan.route.includes("WHITE")
             || strip.flight_plan.route.includes("DIXIE")) return ".cjfkb";
             else if (type === "prop" || type === "turboprop") return ".cjfki";
@@ -32,12 +35,12 @@ export function getPDC1(strip, config, dp, type) {
         } else if (config === "Dep 4L/Land 4R") return ".cjfk4";
         else if (config === "Dep 13R/Land 13L") {
             var heading;
-            if (strip.flight_plan.route.includes("RBV") 
+            if (strip.flight_plan.route.includes("RBV")
             || strip.flight_plan.route.includes("WHITE")
             || strip.flight_plan.route.includes("DIXIE")) heading = "185";
-            else if (strip.flight_plan.route.includes("SHIPP") 
+            else if (strip.flight_plan.route.includes("SHIPP")
             || strip.flight_plan.route.includes("WAVEY")) heading = "170";
-            else if (strip.flight_plan.route.includes("BETTE") 
+            else if (strip.flight_plan.route.includes("BETTE")
             || strip.flight_plan.route.includes("HAPIE")) heading = "155";
             else if (type === "jet") heading = "110";
             else heading = "090";
@@ -46,7 +49,7 @@ export function getPDC1(strip, config, dp, type) {
     } else return "Error with pdc1";
 }
 
-export function getPDC2(config, pdc1) {
+export function getPDC2(config: AirportConfig, pdc1: string) {
     if (config === "Dep 4L/Land 4R") return ".pdc2 4L";
     else if (config === "Dep 13R/Land 13L") return ".pdc2 13R";
     else if (config === "Dep 22R/Land 22L") return ".pdc2 22R";

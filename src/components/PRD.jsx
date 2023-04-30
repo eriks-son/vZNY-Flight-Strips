@@ -46,9 +46,11 @@ function PRD({strip, setRoute}) {
     && prdRoutes.body.routes[0].dst_ctr !== "ZDC"
     && strip.flight_plan.arrival !== "CYYZ") {
         return (
-            <div>
-                Not a Tier 1 ARTCC
-            </div>
+            <PRDNone>
+                <h2>
+                    Not a Tier 1 ARTCC
+                </h2>
+            </PRDNone>
         )
     }
 

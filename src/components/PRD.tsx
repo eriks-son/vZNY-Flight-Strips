@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { PilotData } from "./Strips";
 
-function PRD({strip, setRoute}) {
-    const [prdRoutes, setPrdRoutes] = useState(new Object());
+type PRDProps = {
+    strip: PilotData;
+    setRoute: (route: string) => void;
+}
 
-    const getRoutes = async () => {
-        const api = await fetch(`https://5n1v87j7va.execute-api.us-east-1.amazonaws.com/Prod/route?from=${strip.flight_plan.departure.substring(1)}&to=${strip.flight_plan.arrival.substring(1)}`);
-        const data = await api.json();
-        data.body.routes.reverse(); // Reverse so that "green" routes are first
-        setPrdRoutes(data);
+// not working due to CORS
+function PRD({strip, setRoute}: PRDProps) {
+    const [prdData, setPrdData] = useState<any>({});
+
+    const handleRouteSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setRoute(e.target.value);
     }
 
-    const handleRouteSelect = () => {
-        console.log("prdRouteSelect");
-        setRoute(document.getElementById("prdRouteSelect").value);
-    }
-
-    const replaceHTML = (text) => {
+    const replaceHTML = (text: string) => {
         let newText = text.replaceAll("&EQUALS;", "=");
         newText = newText.replaceAll("&GT;", ">");
         newText = newText.replaceAll("&LT;", "<");
@@ -24,12 +23,17 @@ function PRD({strip, setRoute}) {
     }
 
     useEffect(() => {
-        getRoutes();
+        const getRoutes = async () => {
+            const api = await fetch(`https://5n1v87j7va.execute-api.us-east-1.amazonaws.com/Prod/route?from=${strip.flight_plan.departure.substring(1)}&to=${strip.flight_plan.arrival.substring(1)}`);
+            const data = await api.json();
+            data.body.routes.reverse(); // Reverse so that "green" routes are first
+            setPrdData(data);
+        }
+        void getRoutes();
     }, []);
 
-    console.log(prdRoutes);
 
-    if (!prdRoutes.hasOwnProperty("statusCode")) {
+    if (!prdData.hasOwnProperty("statusCode")) {
         return (
             <PRDNone>
                 <h2>
@@ -39,7 +43,7 @@ function PRD({strip, setRoute}) {
         )
     }
 
-    if (prdRoutes.statusCode != 200) {
+    if (prdData.statusCode != 200) {
         return (
             <PRDNone>
                 <h2>
@@ -49,7 +53,7 @@ function PRD({strip, setRoute}) {
         )
     }
 
-    else if (prdRoutes.body.routes.length == 0) {
+    else if (prdData.body.routes.length == 0) {
         return (
             <PRDNone>
                 <h2>
@@ -59,10 +63,10 @@ function PRD({strip, setRoute}) {
         )
     }
 
-    else if (prdRoutes.body.routes[0].dst_ctr !== "ZNY"
-    && prdRoutes.body.routes[0].dst_ctr !== "ZBW"
-    && prdRoutes.body.routes[0].dst_ctr !== "ZOB"
-    && prdRoutes.body.routes[0].dst_ctr !== "ZDC"
+    else if (prdData.body.routes[0].dst_ctr !== "ZNY"
+    && prdData.body.routes[0].dst_ctr !== "ZBW"
+    && prdData.body.routes[0].dst_ctr !== "ZOB"
+    && prdData.body.routes[0].dst_ctr !== "ZDC"
     && strip.flight_plan.arrival !== "CYYZ") {
         return (
             <PRDNone>
@@ -80,11 +84,11 @@ function PRD({strip, setRoute}) {
                     <option value={strip.flight_plan.route}>
                         As Filed
                     </option>
-                    {prdRoutes.body.routes.map((route) => {
+                    {(prdData.body.routes as any[]).map((route: any, i) => {
                         return (
-                            <option value={route.route} className={route.pref == 1 ? "preferred" : "faa"}>
-                                Area: {route.area.length > 0 ? route.area : "None"} | 
-                                Altitude: {route.alt.length > 0 ? replaceHTML(route.alt): "None"} | 
+                            <option key={i} value={route.route} className={route.pref == 1 ? "preferred" : "faa"}>
+                                Area: {route.area.length > 0 ? route.area : "None"} |
+                                Altitude: {route.alt.length > 0 ? replaceHTML(route.alt): "None"} |
                                 Aircraft: {route.aircraft.length > 0 ? replaceHTML(route.aircraft) : "None"}
                             </option>
                         )
@@ -120,14 +124,14 @@ const PRDSelect = styled.div`
 
 
 const PRDNone = styled.div`
-    margin: 0rem 0.2rem;
+    margin: 0 0.2rem;
     padding: 0;
 
     h2 {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0.3rem 0rem;
+        margin: 0.3rem 0;
         font-family: 'Inconsolata', monospace;
         letter-spacing: 0.1rem;
         text-transform: uppercase;

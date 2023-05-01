@@ -1,107 +1,129 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import blankStrip from './FlightStripBlank.png';
 import { FcCheckmark, FcCancel } from "react-icons/fc";
 import { MdOutlineClear } from "react-icons/md";
 import Clearance from './Clearance';
 
+import { airportData } from "../airportData";
+
+export interface PilotData {
+    cid: number;
+    name: string;
+    callsign: string;
+    server: string;
+    pilot_rating: number;
+    latitude: number;
+    longitude: number;
+    altitude: number;
+    groundspeed: number;
+    transponder: string;
+    heading: number;
+    qnh_i_hg: number;
+    qnh_mb: number;
+    flight_plan: FlightPlan;
+    logon_time: string;
+    last_updated: string;
+}
+export interface FlightPlan {
+    flight_rules: string;
+    aircraft: string;
+    aircraft_faa: string;
+    aircraft_short: string;
+    departure: string;
+    arrival: string;
+    alternate: string;
+    cruise_tas: string;
+    altitude: string;
+    deptime: string;
+    enroute_time: string;
+    fuel_time: string;
+    remarks: string;
+    route: string;
+    revision_id: number;
+    assigned_transponder: string;
+}
 
 function Strips() {
-    const AIRPORTS = require('../components/airports.json');
-
     const [time, setTime] = useState(new Date());
-    const [strips, setStrips] = useState([]);
-    const [deleted, setDeleted] = useState([]);
+    const [strips, setStrips] = useState<PilotData[]>([]);
+    const [deleted, setDeleted] = useState<number[]>([]);
     const [airports, setAirports] = useState(new Map());
     const [clearance, setClearance] = useState("");
     const [search, setSearch] = useState("");
 
-    // Handle deleting a strip
-    const crossHandle = (strip) => {
+    // noinspection com.haulmont.rcb.ExhaustiveDepsInspection
+    const getStrips = useCallback(async (): Promise<PilotData[]> => {
+        const stripFilter = (flight: PilotData) => {
+            if (!flight.flight_plan) return false;
+            const dep = flight.flight_plan.departure;
+            if (!airports.has(dep)) return false;
+            if (deleted.includes(flight.cid)) return false;
+            if (!flight.callsign.includes(search.toUpperCase())) return false;
+            if (flight.flight_plan.flight_rules !== "I") return false;
+            for (const major of airportData){
+                if (major.icao === dep) return flight.altitude < major.altitude + 50;
+                for (const minor of major.minors) {
+                    if (minor.icao === dep) return flight.altitude < minor.altitude + 50;
+                }
+            }
+        }
+        const api = await fetch('https://data.vatsim.net/v3/vatsim-data.json');
+        const data = await api.json();
+        return data.pilots.filter(stripFilter);
+    }, [airports, deleted, search]);
+
+    const crossHandle = async (strip: PilotData) => {
         const deletedNew = [...deleted, strip.cid];
         setDeleted(deletedNew);
         localStorage.setItem('deleted', JSON.stringify(deletedNew));
-        getStrips();
+        setStrips(await getStrips());
     };
 
     useEffect(() => {
-        getStrips();
-    }, [time])
+        const refreshStrips = async () => {
+            setStrips(await getStrips());
+        }
+        void refreshStrips();
+    }, [time, getStrips]);
 
     useEffect(() => {
-        getStrips();
-    }, [search]);
+        const getDeleted = () => {
+            let deletedData: number[] = []
+            let item = localStorage.getItem('deleted');
+            if (item === '' || item === null) {
+                localStorage.setItem('deleted', JSON.stringify(deletedData));
+            }
+            else deletedData = JSON.parse(item);
+            setDeleted(deletedData);
+        }
+        const getAirports = () => {
+            let airportMap = new Map();
+            let airportConfig;
+            for (const major of airportData) {
+                airportConfig = localStorage.getItem(major.icao);
+                if (airportConfig != null) airportMap.set(major.icao, airportConfig);
+                for (const MINOR of major.minors) {
+                    airportConfig = localStorage.getItem(MINOR.icao);
+                    if (airportConfig != null) airportMap.set(MINOR.icao, airportConfig);
+                }
+            }
+            setAirports(airportMap);
+        }
 
-    useEffect(() => {
-        getStrips();
-    }, [deleted]);
+        const refreshStrips = async () => {
+            setStrips(await getStrips());
+        }
 
-    useEffect(() => {
-        getStrips();
-    }, [airports]);
-
-    useEffect(() => {
-        // Refresh every 5 seconds
         const interval = setInterval(() => {
             setTime(new Date());
         }, 5000);
         getAirports();
         getDeleted();
-        getStrips();
+        void refreshStrips();
 
         return () => clearInterval(interval);
     }, []);
-
-    // Grab all deleted aircraft from local storage
-    const getDeleted = () => {
-        let deletedData = localStorage.getItem('deleted');
-        if (deletedData === '' || deletedData === null) {
-            deletedData = [];
-            localStorage.setItem('deleted', JSON.stringify(deletedData));
-        }
-        else deletedData = JSON.parse(deletedData);
-        setDeleted(deletedData);
-    }
-
-    // Get all tracked airports from local storage (plus LGA airspace)
-    const getAirports = () => {
-        let airportMap = new Map();
-        var airportConfig; 
-        for (const MAJOR of AIRPORTS) {
-            airportConfig = localStorage.getItem(MAJOR.icao);
-            if (airportConfig != null) airportMap.set(MAJOR.icao, airportConfig);
-            for (const MINOR of MAJOR.minors) {
-                airportConfig = localStorage.getItem(MINOR.icao);
-                if (airportConfig != null) airportMap.set(MINOR.icao, airportConfig);
-            }
-        }
-        setAirports(airportMap);
-    }
-
-    // Return if a strip should be shown
-    const stripFilter = (flight) => {
-        if (!flight.flight_plan) return false;
-        const dep = flight.flight_plan.departure;
-        if (!airports.has(dep)) return false;
-        if (deleted.includes(flight.cid)) return false;
-        if (!flight.callsign.includes(search)) return false;
-        if (flight.flight_plan.flight_rules !== "I") return false;
-        if (flight.callsign === "N51TP") console.log("YAY");
-        for (const MAJOR of AIRPORTS){
-            if (MAJOR.icao === dep) return flight.altitude < MAJOR.altitude + 50;
-            for (const MINOR of MAJOR.minors) {
-                if (MINOR.icao === dep) return flight.altitude < MINOR.altitude + 50;
-            }
-        }
-    }
-
-    // Get all strips from vatsim data and filter
-    const getStrips = async () => {
-        const api = await fetch('https://data.vatsim.net/v3/vatsim-data.json');
-        const data = await api.json();
-        const stripsData = data.pilots.filter(stripFilter);
-        setStrips(stripsData);
-    };
 
     // Clear deleted
     const handleReset = () => {
@@ -110,9 +132,9 @@ function Strips() {
     }
 
     // Change callsign search and prevent enter
-    const handleSearchChange = (e) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setSearch(e.target.value.toUpperCase());
+        setSearch(e.target.value);
     }
 
     return (
@@ -161,8 +183,8 @@ function Strips() {
 }
 
 const Wrapper = styled.div`
-    margin: 0rem 5rem;
-    background: url("../pages/Empty Strip Bay.png") repeat-y;
+    margin: 0 5rem;
+    background: url("/img/Empty_Strip_Bay.png") repeat-y;
 
     .search {
         padding: 1rem;
@@ -200,7 +222,7 @@ const Wrapper = styled.div`
         padding: 1rem;
         display: flex;
         justify-content: space-around;
-        width: rem;
+        width: 1rem;
         height: 4rem;
     }
 
@@ -213,7 +235,7 @@ const Wrapper = styled.div`
         color: white;
         font-weight: bold;
         font-size: 3vw;
-        width: 12%;
+        width: 6ch;
     }
 
     button:hover {

@@ -1,6 +1,9 @@
+import { AirportConfig } from "../airportData";
+import { PilotData } from "components/Strips";
+
 export const DPs = ["LGA7", "TNNIS6", "GLDMN8", "NTHNS5", "JUTES3", "HOPEA3"]
 
-export function getDP(strip, config, type) {
+export function getDP(strip: PilotData, config: AirportConfig, type: string) {
     const route = strip.flight_plan.route;
     const airspace = localStorage.getItem("KLGA_airspace");
     if (config === "Dep 4/Land Any") return DPs[0];
@@ -41,7 +44,7 @@ export function getDP(strip, config, type) {
         || route.includes("WAVEY")
         || route.includes("DIXIE")
         || route.includes("WHITE"))
-        && (airspace === "coney" 
+        && (airspace === "coney"
         || airspace === "both")
         && type === "jet") return DPs[5];
         else if (type === "prop") return DPs[0];
@@ -49,7 +52,7 @@ export function getDP(strip, config, type) {
     } else return DPs[0];
 }
 
-export function getPDC1(strip, config, dp, type) {
+export function getPDC1(strip: PilotData, config: AirportConfig, dp: string, type: string) {
     const airspace = localStorage.getItem("KLGA_airspace");
     const route = strip.flight_plan.route;
     if (dp === DPs[5]) return ".chopea";
@@ -107,22 +110,11 @@ export function getPDC1(strip, config, dp, type) {
     }
 }
 
-export function getPDC2(config, pdc1) {
+export function getPDC2(config: AirportConfig, pdc1: string) {
     if (config === "Dep 4/Land Any") return ".pdc2 4";
     else if (config === "Dep 13/Land 22"
     || config === "Dep 13/Land 4") return ".pdc2 13";
     else if (config === "Dep 22/Land 22") return ".pdc2 22";
     else if (config === "Dep 31/Land Any") return ".pdc2 31";
     else return "Error with pdc2";
-}
-
-export function LGAairspace(airspace, setAirspace) {
-    return (
-            <select id="KLGA_airspace" value={airspace} onChange={(e) => {setAirspace(e.target.value)}}>
-                <option id="none" value="none">None</option>
-                <option id="coney" value="coney">Coney</option>
-                <option id="belmont" value="belmont">Belmont</option>
-                <option id="both" value="both">Both</option>
-            </select>
-        );
 }

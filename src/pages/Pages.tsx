@@ -33,10 +33,10 @@ function Pages() {
 
 const Topbar = styled.div`
   * {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    overflow: wrap;
+    overflow-wrap: break-word;
   }
 
   nav {

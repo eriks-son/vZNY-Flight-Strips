@@ -1,54 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import blankStrip from './ClearanceStripBlank.png';
-import { FcCheckmark, FcUndo } from "react-icons/fc";
+import { FcCheckmark, FcUndo } from "react-icons/fc"; 
 import logoImage from './ZNY-transparent-black-1000x1000px.png';
 import { FaRoute } from "react-icons/fa";
-import * as types from "../airports/types";
-import * as airports from "../airports";
-import { PilotData } from "./Strips";
-import { AirportConfig } from "../airportData";
+import * as types from "./airports/types";
+import PRD from "./PRD";
 
-type Airport = {
-    DPs: string[];
-    getDP: (strip: PilotData, config: AirportConfig, type: string) => string;
-    getPDC1: (strip: PilotData, config: AirportConfig, dp: string, type: string) => string;
-    getPDC2: (config: AirportConfig, pdc1: string) => string;
-}
+function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config}) {
+    // Airport files use the same named functions and the specific airport will be required on load
+    const airport = require('./airports/' + strip.flight_plan.departure + ".js");
 
-type ClearanceProps = {
-    strip: PilotData;
-    clearance: string;
-    onClearanceChange: (clearance: string) => void;
-    onDeletedChange: (strip: PilotData) => void;
-    config: AirportConfig;
-}
-function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config}: ClearanceProps) {
-    const [alt, setAlt] = useState("");
-    const [dp, setDp] = useState("");
-    const [type, setType] = useState("");
-    const [pdc1, setPdc1] = useState("");
-    const [pdc2, setPdc2] = useState("");
-
-    // @ts-ignore
-    const airport = airports[strip.flight_plan.departure] as Airport;
-
-    const handleClearanceFinal = () => {
+    /// Delete strip when cleared
+    const handleClearanceFinal = useCallback(event => {
         onClearanceChange("");
         onDeletedChange(strip);
-    };
+    })
 
-    const handleCancel = () => {
+    // Cancel clearing the strip (don't delete, just stop clearing)
+    const handleCancel = useCallback(event => {
         onClearanceChange("");
-    };
+    })
 
-    const handleDpChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setDp(e.target.value);
+    // Change the dp when the select's option changes
+    const handleDpChange = () => {
+        setDp(document.getElementById("dp-select").value);
     }
 
-    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setType(e.target.value);
+    // Change the type when the select's option changes
+    const handleTypeChange = () => {
+        setType(document.getElementById("type-select").value);
     }
+
+    const [alt, setAlt] = useState("");
+
+    const [dp, setDp] = useState("");
+
+    const [type, setType] = useState("");
+
+    const [pdc1, setPdc1] = useState("");
+
+    const [pdc2, setPdc2] = useState("");
+
+    const [route, setRoute] = useState("");
 
     const getDp = () => {
         setDp(airport.getDP(strip, config, type));
@@ -62,6 +56,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         setPdc2(airport.getPDC2(config, pdc1));
     }
 
+    // Defaults to type jet. List will need to be added to if there's not a better list of types
     const getType = () => {
         if (types.PROPS.includes(strip.flight_plan.aircraft_short)) setType("prop");
         else if (types.TURBOPROPS.includes(strip.flight_plan.aircraft_short)) setType("turboprop");
@@ -72,8 +67,9 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         setAlt(strip.flight_plan.altitude);
     }
 
+    // Remove all crud from route and slice if too long (no DP)
     const cleanRoute = () => {
-        let cleaned = strip.flight_plan.route.replace("+", "");
+        let cleaned = route.replace("+", "");
         for (const dp of airport.DPs) cleaned = cleaned.replace(dp, "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
         cleaned = cleaned.replace(strip.flight_plan.arrival, "");
@@ -82,8 +78,9 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         return cleaned.slice(0, 130) + ((130 < strip.flight_plan.route.length) ? "..." : "");
     }
 
+    // Remove all crud from route and add DP on front
     const DPRoute = () => {
-        let cleaned = strip.flight_plan.route.replaceAll("+", "");
+        let cleaned = route.replaceAll("+", "");
         cleaned = cleaned.replace(strip.flight_plan.departure, "");
         cleaned = cleaned.replace(strip.flight_plan.arrival, "");
         cleaned = cleaned.replaceAll("DCT", "");
@@ -93,6 +90,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
     }
 
     useEffect(() => {
+        setRoute(strip.flight_plan.route);
         getType();
         getDp();
         getAlt();
@@ -115,7 +113,15 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
         getPdc2();
     }, [pdc1]);
 
-  return (strip.callsign === clearance ?
+    useEffect(() => {
+        getDp();
+        getPdc1();
+        getPdc2();
+    }, [route]);
+    
+    // Only return if it's being cleared
+    if (strip.callsign === clearance) {
+  return (
     <div>
         <NewStrip key={strip.cid}>
             <img src={blankStrip} alt={strip.callsign}></img>
@@ -134,7 +140,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
             <div className="dp">
                 <select id="dp-select" value={dp} onChange={handleDpChange}>
                     {airport.DPs.map((departureProcedure) => {
-                        return <option key={departureProcedure} id={departureProcedure} value={departureProcedure}>{departureProcedure}</option>
+                        return <option id={departureProcedure} value={departureProcedure}>{departureProcedure}</option>
                     })}
                 </select>
             </div>
@@ -162,8 +168,10 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
             <div className="checkmark"><button onClick={handleClearanceFinal}><FcCheckmark /></button></div>
             <div className="cross"><button onClick={handleCancel}><FcUndo /></button></div>
         </NewStrip>
+        <PRD strip={strip} setRoute={setRoute} />
     </div>
-   : null);
+  )
+  }
 }
 
 const NewStrip = styled.div`
@@ -276,6 +284,8 @@ const NewStrip = styled.div`
         border: none;
         background: none;
         font-size: 3vw;
+        border: none;
+        border-radius 1rem;
         outline: none;
         width: 8vw;
     }
@@ -307,7 +317,8 @@ const NewStrip = styled.div`
         height: 9vh;
         top: 35%;
         left: 30.3%;
-        overflow-wrap: break-word;
+        overflow-wrap: break;
+        font-size: 2vw;
     }
 
     .arrival {
@@ -344,13 +355,14 @@ const NewStrip = styled.div`
     
     .checkmark {
         position: absolute;
-        top: 68%;
+        top: 65%;
         left: 88%;
     }
 
     .checkmark button {
         font-size: 4vw;
         border: none;
+        height: 50%;
         background: none;
         opacity: 50%;
     }
@@ -362,8 +374,8 @@ const NewStrip = styled.div`
     
     .cross {
         position: absolute;
-        top: 69%;
-        left: 94.5%;
+        top: 65%;
+        left: 94%;
     }
 
     .cross button {

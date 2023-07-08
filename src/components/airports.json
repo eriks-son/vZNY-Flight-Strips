@@ -54,19 +54,6 @@
         ]
     },
     {
-        "icao": "KSWF",
-        "configs": ["Dep 9/Land 9", "Dep 27/Land 27"],
-        "altitude": 490.7,
-        "minors": 
-        [
-            {
-                "icao": "KPOU",
-                "altitude": 163,
-                "configs": ["Dep 6/Land 6", "Dep 24/Land 24"]
-            }
-        ]
-    },
-    {
         "icao": "KPHL",
         "configs": ["Dep 9L/Land 9R", "Dep 27L/Land 27R"],
         "altitude": 35.9,
@@ -86,6 +73,19 @@
                 "icao": "KILG",
                 "altitude": 80,
                 "configs": ["Dep 19/Land 19", "Dep 1/Land 1", "Dep 32/Land 32"]
+            }
+        ]
+    },
+    {
+        "icao": "KSWF",
+        "configs": ["Dep 9/Land 9", "Dep 27/Land 27"],
+        "altitude": 490.7,
+        "minors": 
+        [
+            {
+                "icao": "KPOU",
+                "altitude": 163,
+                "configs": ["Dep 6/Land 6", "Dep 24/Land 24"]
             }
         ]
     },

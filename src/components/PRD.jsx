@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 function PRD({strip, setRoute}) {
-    const [prdRoutes, setPrdRoutes] = useState(new Object());
+    const [prdRoutes, setPrdRoutes] = useState({});
 
     const getRoutes = async () => {
         const api = await fetch(`https://5n1v87j7va.execute-api.us-east-1.amazonaws.com/Prod/route?from=${strip.flight_plan.departure.substring(1)}&to=${strip.flight_plan.arrival.substring(1)}`);
@@ -39,7 +39,7 @@ function PRD({strip, setRoute}) {
         )
     }
 
-    if (prdRoutes.statusCode != 200) {
+    if (prdRoutes.statusCode !== 200) {
         return (
             <PRDNone>
                 <h2>
@@ -49,7 +49,7 @@ function PRD({strip, setRoute}) {
         )
     }
 
-    else if (prdRoutes.body.routes.length == 0) {
+    else if (prdRoutes.body.routes.length === 0) {
         return (
             <PRDNone>
                 <h2>
@@ -82,7 +82,7 @@ function PRD({strip, setRoute}) {
                     </option>
                     {prdRoutes.body.routes.map((route) => {
                         return (
-                            <option value={route.route} className={route.pref == 1 ? "preferred" : "faa"}>
+                            <option value={route.route} className={route.pref === 1 ? "preferred" : "faa"}>
                                 Area: {route.area.length > 0 ? route.area : "None"} | 
                                 Altitude: {route.alt.length > 0 ? replaceHTML(route.alt): "None"} | 
                                 Aircraft: {route.aircraft.length > 0 ? replaceHTML(route.aircraft) : "None"}

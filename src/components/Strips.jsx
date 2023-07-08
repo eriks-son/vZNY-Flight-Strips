@@ -115,54 +115,81 @@ function Strips() {
         setSearch(e.target.value.toUpperCase());
     }
 
-    return (
-        <div>
-            <Wrapper>
-                <div className="search">
-                    <input key="search" value={search} type="text" placeholder='Enter Partial Callsign' onChange={handleSearchChange}/>
-                    <div className='clearSearch'>
-                        <button onClick={() => {setSearch("")}}>
-                            <MdOutlineClear />
-                        </button>
-                    </div>
-                </div>
-                {strips.sort((f1, f2) => (f1.callsign > f2.callsign) ? 1 : (f1.callsign < f2.callsign) ? -1 : 0).map((strip) => {
-                    return (
-                        <div key={strip.cid}>
-                        <Strip key={strip.cid}>
-                            <img src={blankStrip} alt={strip.callsign}></img>
-                            <div className="callsign"><p>{strip.callsign}</p></div>
-                            <div className="type"><p>{strip.flight_plan.aircraft_faa}</p></div>
-                            <div className="cid"><p>{strip.cid}</p></div>
-                            <div className="squawk"><p>{strip.flight_plan.assigned_transponder}</p></div>
-                            <div className="ETD"><p>P{strip.flight_plan.deptime}</p></div>
-                            <div className="cruise"><p>{strip.flight_plan.altitude}</p></div>
-                            <div className="departure"><p>{strip.flight_plan.departure}</p></div>
-                            <div className="arrival"><p>{strip.flight_plan.arrival}</p></div>
-                            <div className="route">
-                                <p>
-                                    {strip.flight_plan.route.slice(0, 120) + ((120 < strip.flight_plan.route.length) ? "..." : "")}
-                                </p>
-                            </div>
-                            <div className="checkmark"><button onClick={() => setClearance(strip.callsign)}><FcCheckmark /></button></div>
-                            <div className="cross"><button onClick={() => crossHandle(strip)}><FcCancel /></button></div>
-                        </Strip>
-                        <Clearance strip={strip} clearance={clearance} onClearanceChange={setClearance}
-                         onDeletedChange={crossHandle} config={airports.get(strip.flight_plan.departure)}/>
+    if (airports.size) {
+        return (
+            <div>
+                <Wrapper>
+                    <div className="search">
+                        <input key="search" value={search} type="text" placeholder='Enter Partial Callsign' onChange={handleSearchChange}/>
+                        <div className='clearSearch'>
+                            <button onClick={() => {setSearch("")}}>
+                                <MdOutlineClear />
+                            </button>
                         </div>
-                        )
-                })}
-                <div className='reset'>
-                    <button onClick={handleReset}>Reset</button>
-                </div>
+                    </div>
+                    {strips.sort((f1, f2) => (f1.callsign > f2.callsign) ? 1 : (f1.callsign < f2.callsign) ? -1 : 0).map((strip) => {
+                        return (
+                            <div key={strip.cid}>
+                            <Strip key={strip.cid}>
+                                <img src={blankStrip} alt={strip.callsign}></img>
+                                <div className="callsign"><p>{strip.callsign}</p></div>
+                                <div className="type"><p>{strip.flight_plan.aircraft_faa}</p></div>
+                                <div className="cid"><p>{strip.cid}</p></div>
+                                <div className="squawk"><p>{strip.flight_plan.assigned_transponder}</p></div>
+                                <div className="ETD"><p>P{strip.flight_plan.deptime}</p></div>
+                                <div className="cruise"><p>{strip.flight_plan.altitude}</p></div>
+                                <div className="departure"><p>{strip.flight_plan.departure}</p></div>
+                                <div className="arrival"><p>{strip.flight_plan.arrival}</p></div>
+                                <div className="route">
+                                    <p>
+                                        {strip.flight_plan.route.slice(0, 120) + ((120 < strip.flight_plan.route.length) ? "..." : "")}
+                                    </p>
+                                </div>
+                                <div className="checkmark" title='Start Clearance'>
+                                    <button onClick={() => setClearance(strip.callsign)}>
+                                        <FcCheckmark />
+                                    </button>
+                                </div>
+                                <div className="cross" title='Remove Strip'>
+                                    <button onClick={() => crossHandle(strip)}>
+                                        <FcCancel />
+                                    </button>
+                                </div>
+                            </Strip>
+                            <Clearance strip={strip} clearance={clearance} onClearanceChange={setClearance}
+                             onDeletedChange={crossHandle} config={airports.get(strip.flight_plan.departure)}/>
+                            </div>
+                            )
+                    })}
+                    <div className='reset'>
+                        <button onClick={handleReset}>Reset</button>
+                    </div>
+                </Wrapper>
+            </div>
+        )
+    } else {
+        return (
+            <Wrapper>
+                <h2 className='noAirports'>No Airport(s) Selected</h2>
             </Wrapper>
-        </div>
-    )
+        )
+    }
 }
 
 const Wrapper = styled.div`
     margin: 0rem 5rem;
     background: url("../pages/Empty Strip Bay.png") repeat-y;
+
+    .noAirports {
+        width: 100%;
+        text-align: center;
+        font-family: 'Inconsolata', monospace;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        color: white;
+        font-weight: bold;
+        font-size: 2vw;
+    }
 
     .search {
         padding: 1rem;

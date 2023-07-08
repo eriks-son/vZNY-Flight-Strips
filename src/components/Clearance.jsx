@@ -127,7 +127,7 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
             <img src={blankStrip} alt={strip.callsign}></img>
             <div className="callsign"><p>CLEARANCE:</p></div>
             <div className="type-label"><p>TYPE:</p></div>
-            <div className="type">
+            <div className="type" title='Select Aircraft Type'>
                 <select id="type-select" value={type} onChange={handleTypeChange}>
                     <option value="jet">JET</option>
                     <option value="turboprop">TURBOPROP</option>
@@ -137,38 +137,52 @@ function Clearance({strip, clearance, onClearanceChange, onDeletedChange, config
             <div className="squawk"><p>{strip.flight_plan.assigned_transponder}</p></div>
             <div className="cruise"><input value={alt} onChange={(e) => setAlt(e.target.value)} type="text"></input></div>
             <div className="dp-label"><p>DP:</p></div>
-            <div className="dp">
+            <div className="dp" title='Select Departure Procedure'>
                 <select id="dp-select" value={dp} onChange={handleDpChange}>
                     {airport.DPs.map((departureProcedure) => {
                         return <option id={departureProcedure} value={departureProcedure}>{departureProcedure}</option>
                     })}
                 </select>
             </div>
-            <div className="route">
+            <div className="route" title={"Copy " + strip.callsign + "'s Route"}>
                 <p onClick={() => navigator.clipboard.writeText(DPRoute())}>
                     {dp + " " + cleanRoute()}
                 </p>
             </div>
-            <div className="pdc1">
+            <div className="pdc1" title='Copy PDC1'>
                 <button onClick={() => {navigator.clipboard.writeText(pdc1)}}>
                     {pdc1}
                 </button>
             </div>
-            <div className="pdc2">
+            <div className="pdc2" title='Copy PDC2'>
                 <button onClick={() => {navigator.clipboard.writeText(pdc2)}}>
                     {pdc2}
                 </button>
             </div>
-            <div className="prd"><button onClick={() => window.open("http://nyartcc.org/prd?from=" + strip.flight_plan.departure + "&to=" + strip.flight_plan.arrival, "_blank")}>
-                <FaRoute />
-            </button></div>
-            <div className="sop"><button onClick={() => window.open("https://wiki.nyartcc.org/index.php?title=" + strip.flight_plan.departure.substring(1, 4) + "_SOP", "_blank")}>
-                <img className="logo" src={logoImage} alt="NYARTCC Logo"></img>
-            </button></div>
-            <div className="checkmark"><button onClick={handleClearanceFinal}><FcCheckmark /></button></div>
-            <div className="cross"><button onClick={handleCancel}><FcUndo /></button></div>
+            <div className="prd" title='Open the PRD (new window)'>
+                <button onClick={() => window.open("http://nyartcc.org/prd?from=" + strip.flight_plan.departure + "&to=" + strip.flight_plan.arrival, "_blank")}>
+                    <FaRoute />
+                </button>
+            </div>
+            <div className="sop" title={"Open the " + strip.flight_plan.departure + " SOP (new window)"}>
+                <button onClick={() => window.open("https://wiki.nyartcc.org/index.php?title=" + strip.flight_plan.departure.substring(1, 4) + "_SOP", "_blank")}>
+                    <img className="logo" src={logoImage} alt="NYARTCC Logo"></img>
+                </button>
+            </div>
+            <div className="checkmark" title='Finish Clearance (remove strip)'>
+                <button onClick={handleClearanceFinal}>
+                    <FcCheckmark />
+                </button>
+            </div>
+            <div className="cross" title='Cancel Clearance (keep strip)'>
+                <button onClick={handleCancel}>
+                    <FcUndo />
+                </button>
+            </div>
         </NewStrip>
-        <PRD strip={strip} setRoute={setRoute} />
+        <div className='prd' title='PRD Routes'>
+            <PRD strip={strip} setRoute={setRoute} />
+        </div>
     </div>
   )
   }

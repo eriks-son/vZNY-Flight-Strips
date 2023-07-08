@@ -75,6 +75,7 @@ function Airports() {
 
     return (
       <FormStyle className="airportsForm" onSubmit={submitHandler}>
+        <div className='submit'><input type="submit"></input></div>
         <h1>Airports:</h1>
         <ul className='majorList'>
         {AIRPORTS.map((major) => {
@@ -127,6 +128,7 @@ const FormStyle = styled.form`
         font-family: 'Inconsolata', monospace;
         text-transform: uppercase;
         font-weight: bold;
+        color: white;
     }
     .majorList {
         align-items: center;
